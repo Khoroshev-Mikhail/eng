@@ -1,0 +1,16 @@
+{
+  "goods": [
+    {
+      "id": 2,
+      "name": "Mushrooms"
+    },
+    {
+      "id": 1,
+      "name": "icecream"
+    },
+    {
+      "name": "asdas",
+      "id": 3
+    }
+  ]
+}
