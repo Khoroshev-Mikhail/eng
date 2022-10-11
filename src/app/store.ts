@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { goodsApi } from './goodsApi';
+import { goodsApi } from './wordsAPI';
 export const store = configureStore({
   reducer: {
     [ goodsApi.reducerPath ]: goodsApi.reducer

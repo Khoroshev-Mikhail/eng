@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Card } from 'semantic-ui-react'
 import WordsCard from '../WordsCard/WordsCard'
 export default function Words(){

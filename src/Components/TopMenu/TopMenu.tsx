@@ -7,8 +7,8 @@ export default function TopMenu(){
     return (
         <Menu pointing secondary stackable>
             <Menu.Item as={Link} to="/" name='Words' active={activeItem === 'Words'} onClick={handleItemClick}>Слова</Menu.Item>
-            <Menu.Item disabled as={null/*Link*/} to="/Grammar" name='Grammar' active={activeItem === 'Grammar'} onClick={handleItemClick}>Грамматика</Menu.Item>
-            <Menu.Item disabled as={null/*Link*/} to="/Texts" name='Texts' active={activeItem === 'Texts'} onClick={handleItemClick}>Тексты</Menu.Item>
+            <Menu.Item as={Link} to="/Grammar" name='Grammar' active={activeItem === 'Grammar'} onClick={handleItemClick}>Грамматика</Menu.Item>
+            <Menu.Item as={Link} to="/Texts" name='Texts' active={activeItem === 'Texts'} onClick={handleItemClick}>Тексты</Menu.Item>
         </Menu>
     )
 }
