@@ -13,9 +13,9 @@
       "id": 3
     }
   ],
-  "usersWords": [
+  "userWords": [
     {
-      "userId" : 1, 
+      "id" : 1, 
       "userVocabular": {
         "englishRussian": [1,2,3,4,5,6],
         "russianEnglish": [1,2,3,4,5,6],
@@ -40,6 +40,6 @@
     {"id": 3, "eng": "love", "rus": "любовь"}
   ],
   "wordGroups": [
-    {"id": 0, "title": "title", "rusTitle": "Русский загловок", "wordIds": [1,2,3,4]}
+    {"id": 0, "title": "title", "rusTitle": "Русский загловок", "wordIds": [1,2,3]}
   ]
 }
