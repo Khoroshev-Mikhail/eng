@@ -17,10 +17,10 @@
     {
       "id" : 1, 
       "userVocabular": {
-        "englishRussian": [1,2,3,4,5,6],
-        "russianEnglish": [1,2,3,4,5,6],
-        "auding": [1,2,3,4,5,6],
-        "spell": [1,2,3,4,5,6]
+        "englishRussian": [1,2,3],
+        "russianEnglish": [1,2,3],
+        "auding": [1,2,3],
+        "spell": [1,2,3]
       }
     },
     {
@@ -37,9 +37,13 @@
     {"id": 0, "eng": "table", "rus": "стол"},
     {"id": 1, "eng": "cat", "rus": "кот"},
     {"id": 2, "eng": "dog", "rus": "собака"},
-    {"id": 3, "eng": "love", "rus": "любовь"}
+    {"id": 3, "eng": "love", "rus": "любовь"},
+    {"id": 4, "eng": "love", "rus": "любовь"},
+    {"id": 5, "eng": "love", "rus": "любовь"},
+    {"id": 6, "eng": "love", "rus": "любовь"}
   ],
   "wordGroups": [
     {"id": 0, "title": "title", "rusTitle": "Русский загловок", "wordIds": [1,2,3]}
-  ]
+  ],
+  "russianEnglish": [1,2,3]
 }
