@@ -1,8 +1,8 @@
-import { useGetUserWordsQuery, useSetUserWordsMutation } from "../../app/API/wordAPI"
+import { useGetAllWordsQuery, useSetWordMutation } from "../../app/API/wordAPI"
 
 export default function Texts(){
-    const {data, error, isLoading} = useGetUserWordsQuery()
-    const [addWord, {isError}] = useSetUserWordsMutation()
+    const {data, error, isLoading} = useGetAllWordsQuery()
+    const [addWord, {isError}] = useSetWordMutation()
 
     console.log(data)
     return (

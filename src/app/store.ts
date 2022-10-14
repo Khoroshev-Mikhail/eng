@@ -1,10 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { userWordsAPI } from './API/wordAPI';
+import { groupsAPI } from './API/groupsAPI';
+import { vocabularyAPI } from './API/vocabulary';
+import { wordsAPI } from './API/wordAPI';
 export const store = configureStore({
   reducer: {
-    [userWordsAPI.reducerPath]: userWordsAPI.reducer
+    [wordsAPI.reducerPath]: wordsAPI.reducer,
+    [groupsAPI.reducerPath]: groupsAPI.reducer,
+    [vocabularyAPI.reducerPath]: vocabularyAPI.reducer 
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userWordsAPI.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(wordsAPI.middleware, groupsAPI.middleware, vocabularyAPI.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;

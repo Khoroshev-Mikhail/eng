@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Container } from 'semantic-ui-react';
 import TopMenu from './Components/TopMenu/TopMenu';
-import Words from './Components/Words/Words';
+import Words from './Components/Groups/Groups';
 import Grammar from "./Components/Grammar/Grammar";
 import Texts from "./Components/Texts/Texts";
 

@@ -1,4 +1,5 @@
 import { Tab } from 'semantic-ui-react'
+import { useGetVocabularyQuery, useSetVocabularyMutation } from '../../app/API/vocabulary'
 import Word from '../Word/Word'
 
 const panes = [
@@ -21,6 +22,7 @@ const panes = [
 ]
 
 export default function WordsMenu(){
+  
     return (
         <Tab menu={{ pointing: true, secondary: true, stackable: true}} panes={panes} />
     )

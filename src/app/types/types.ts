@@ -1,11 +1,18 @@
 export type UserVocabular = {
-    englishRussian: number[],
-    russianEnglish: number[],
+    english: number[],
+    russian: number[],
     auding: number[],
-    spell: number[],
+    spelling: number[],
 }
 export type Word = {
     id: number, 
     eng: string,
     rus: string,
+}
+
+export type Group = {
+    id: number, 
+    title: string,
+    title_rus: string,
+    word_ids: number[]
 }
