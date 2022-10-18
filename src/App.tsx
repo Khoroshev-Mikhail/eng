@@ -1,24 +1,41 @@
+import 'semantic-ui-css/semantic.min.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Container } from 'semantic-ui-react';
 import TopMenu from './Components/TopMenu/TopMenu';
-import Words from './Components/Groups/Groups';
+import Groups from './Components/Groups/Groups';
 import Grammar from "./Components/Grammar/Grammar";
 import Texts from "./Components/Texts/Texts";
-
-import './App.css';
-import 'semantic-ui-css/semantic.min.css'
-import WordsMenu from "./Components/WordsMenu/WordsMenu";
+import MethodMenu from "./Components/MethodMenu/MethodMenu";
+import English from "./Components/Methods/English/English";
+import Russian from "./Components/Methods/Russian/Russian";
+import Spelling from "./Components/Methods/Spelling/Listening";
+import Auding from "./Components/Methods/Auding/Auding";
+import { useGetGroupsQuery } from './app/API/groupsAPI';
+import React from 'react';
 
 function App() {
+  const {data: groups = [], error, isLoading} = useGetGroupsQuery()
   return (
     <Container>
       <Router>
         <TopMenu />
         <Routes>
-          <Route path="/" element={<Words />} />
+          <Route path="/" element={<Groups />} />
           <Route path="/Grammar" element={<Grammar />} />
           <Route path="/Texts" element={<Texts />} />
-          <Route path="/WordsMenu" element={<WordsMenu />} />
+          {groups.map((el: any, i: number) => {
+              return (
+                <React.Fragment key={i}>
+                    <Route path={`/${el.title}`} element={<MethodMenu {...el} />} />
+
+                    <Route path={`/${el.title}/english`} element={<English {...el} />} />
+                    <Route path={`/${el.title}/russian`} element={<Russian {...el} />} />
+                    <Route path={`/${el.title}/spelling`} element={<Spelling {...el} />} />
+                    <Route path={`/${el.title}/auding`} element={<Auding {...el} />} />
+                </React.Fragment>
+              )
+          })}
+          <Route path="/MethodMenu" element={<MethodMenu />} />
         </Routes>
       </Router>
     </Container>

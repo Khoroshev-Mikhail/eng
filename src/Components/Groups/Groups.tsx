@@ -1,15 +1,15 @@
 import { Card } from 'semantic-ui-react'
 import { useGetGroupsQuery } from '../../app/API/groupsAPI'
-import WordsCard from '../WordsCard/WordsCard'
+import GroupCard from '../GroupCard/GroupCard'
 import { Group } from '../../app/types/types'
-import { useId } from 'react'
+import { useGetVocabularyQuery } from '../../app/API/vocabulary'
 export default function Groups(){
-    const {data = [], error, isLoading} = useGetGroupsQuery()
-    const id = useId()
+    const {data: groups = [], error, isLoading} = useGetGroupsQuery()
+
     return (
         <Card.Group itemsPerRow={4} stackable>
-            {data?.map((el: Group, i: number) => {
-                return <WordsCard key={id+i} header={el.title} id={el.id} words={el.word_ids}/>
+            {groups?.map((el: Group, i: number) => {
+                return <GroupCard key={i} {...el} />
             })}
         </Card.Group>
     )

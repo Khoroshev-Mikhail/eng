@@ -16,7 +16,7 @@ export const vocabularyAPI = createApi({
                 body
             }),
             invalidatesTags: ['vocabulary']
-        }),
+        })
     })
 })
 
