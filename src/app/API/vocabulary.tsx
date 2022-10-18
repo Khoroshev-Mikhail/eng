@@ -9,15 +9,26 @@ export const vocabularyAPI = createApi({
             query: (id: any) =>  `vocabulary/${id}`,
             providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
         }),
+        getUnlerned: builder.query<any, any>({
+            query: (req) =>  `/vocabulary/${req.userId}/unlerned/${req.method}/group/${req.groupId}`,
+            providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
+        }),
         setVocabulary: builder.mutation<any, any>({
             query: (body) => ({
-                url: `vocabulary/${body.user_id}/${body.method}`,
+                url: `vocabulary/${body.userId}/${body.method}`,
                 method: 'PUT',
                 body
+            }),
+            invalidatesTags: ['vocabulary']
+        }),
+        wrongAnswer: builder.mutation<any, any>({
+            query: () => ({
+                url: `vocabulary/wrong`,
+                method: 'PUT'
             }),
             invalidatesTags: ['vocabulary']
         })
     })
 })
 
-export const { useGetVocabularyQuery, useSetVocabularyMutation } = vocabularyAPI
+export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useWrongAnswerMutation } = vocabularyAPI

@@ -8,22 +8,23 @@ import Texts from "./Components/Texts/Texts";
 import MethodMenu from "./Components/MethodMenu/MethodMenu";
 import English from "./Components/Methods/English/English";
 import Russian from "./Components/Methods/Russian/Russian";
-import Spelling from "./Components/Methods/Spelling/Listening";
+import Spelling from "./Components/Methods/Spelling/Spelling";
 import Auding from "./Components/Methods/Auding/Auding";
 import { useGetGroupsQuery } from './app/API/groupsAPI';
 import React from 'react';
+import Footer from './Components/Footer/Footer';
 
 function App() {
-  const {data: groups = [], error, isLoading} = useGetGroupsQuery()
+  const {data: groups = [], isSuccess} = useGetGroupsQuery()
   return (
-    <Container>
+    <div className='container mx-auto px-4 py-4'>
       <Router>
-        <TopMenu />
+        {/* <TopMenu /> */}
         <Routes>
           <Route path="/" element={<Groups />} />
           <Route path="/Grammar" element={<Grammar />} />
           <Route path="/Texts" element={<Texts />} />
-          {groups.map((el: any, i: number) => {
+          {isSuccess && groups.map((el: any, i: number) => {
               return (
                 <React.Fragment key={i}>
                     <Route path={`/${el.title}`} element={<MethodMenu {...el} />} />
@@ -38,7 +39,8 @@ function App() {
           <Route path="/MethodMenu" element={<MethodMenu />} />
         </Routes>
       </Router>
-    </Container>
+      <Footer />
+    </div>
   )
 }
 
