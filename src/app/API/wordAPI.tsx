@@ -43,7 +43,15 @@ export const wordsAPI = createApi({
             }),
             invalidatesTags: ['words']
         }),
+        deleteWord: builder.mutation<any, any>({
+            query: (id) => ({
+                url: `words`,
+                method: 'DELETE',
+                body: {id}
+            }),
+            invalidatesTags: ['words']
+        }),
     })
 })
 
-export const { useGetAllWordsQuery, useSetWordMutation, useGetWordsByGroupQuery, usePutWordMutation } = wordsAPI
+export const { useGetAllWordsQuery, useSetWordMutation, useGetWordsByGroupQuery, usePutWordMutation, useDeleteWordMutation } = wordsAPI

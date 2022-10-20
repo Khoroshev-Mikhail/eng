@@ -1,51 +1,40 @@
-import { Checkbox, Table, TextInput } from "flowbite-react"
-import { useRef, useState } from "react"
-import { useGetAllWordsQuery, usePutWordMutation } from "../../app/API/wordAPI"
+import { Button, Checkbox, Table, TextInput } from "flowbite-react"
+import { useEffect, useState } from "react"
+import { useDeleteWordMutation, usePutWordMutation } from "../../app/API/wordAPI"
 import { Word } from "../../app/types/types"
 
 export default function AdminWordsRow(props: Word){
-    const {data, isSuccess} = useGetAllWordsQuery()
+    const [putWord] = usePutWordMutation()
+    const [deleteWord] = useDeleteWordMutation()
     const [eng, setEng] = useState(props.eng)
     const [rus, setRus] = useState(props.rus)
-    const [putWord] = usePutWordMutation()
     function changeEngslih(e: any){
         setEng(e.target.value)
-        putWord({id: props.id, eng, rus})
+        putWord({id: props.id, eng: e.target.value, rus}) //как решается вот эта ассинхронность кроме костылей?
+        //Добавить анимацию
     }
     function changeRussian(e: any){
         setRus(e.target.value)
+        putWord({id: props.id, eng, rus: e.target.value})
     }
+    useEffect(()=>{
+        setEng(props.eng)
+        setRus(props.rus)
+    }, [props])
     return (
+        //лучше сверстай через грид
         <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="!p-4">
-                <Checkbox />
-            </Table.Cell>
-            <Table.Cell className="!p-4 !px-2">
+            <Table.Cell className="text-center !p-4 !px-2">
                 {props.id}
             </Table.Cell>
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-            <TextInput
-                id="username"
-                placeholder="Word"
-                defaultValue={props.eng}
-                onChange={changeEngslih}
-                />
+                <TextInput placeholder="Word" value={eng} onChange={changeEngslih} />
             </Table.Cell>
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-            <TextInput
-                id="username"
-                placeholder="Слово"
-                defaultValue={props.rus}
-                onChange={changeRussian}
-                />
+                <TextInput placeholder="Слово" value={rus} onChange={changeRussian} />
             </Table.Cell>
-            <Table.Cell>
-                <a
-                href="/tables"
-                className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                >
-                DELETE
-                </a>
+            <Table.Cell className="text-center">
+                <Button color={'dark'} onClick={()=>deleteWord(props.id)}>Удалить</Button>
             </Table.Cell>
         </Table.Row>
     )
