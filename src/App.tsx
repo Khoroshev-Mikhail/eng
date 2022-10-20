@@ -13,14 +13,22 @@ import Auding from "./Components/Methods/Auding/Auding";
 import { useGetGroupsQuery } from './app/API/groupsAPI';
 import React from 'react';
 import Footer from './Components/Footer/Footer';
+import AdminMenu from './AdminComponents/AdminMenu/AdminMenu';
+import AdminWords from './AdminComponents/AdminWords/AdminWords';
+import AdminGroups from './AdminComponents/AdminGroups/AdminGroups';
 
 function App() {
   const {data: groups = [], isSuccess} = useGetGroupsQuery()
+  const admin = true
   return (
     <div className='container mx-auto px-4 py-4'>
       <Router>
-        {/* <TopMenu /> */}
+        <AdminMenu />
+        <TopMenu />
         <Routes>
+          {admin && <Route path="/adminWords" element={<AdminWords />} />}
+          {admin && <Route path="/adminGroups" element={<AdminGroups />} />}
+          
           <Route path="/" element={<Groups />} />
           <Route path="/Grammar" element={<Grammar />} />
           <Route path="/Texts" element={<Texts />} />

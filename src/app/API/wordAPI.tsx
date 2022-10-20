@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Word } from '../types/types'
 
 export const wordsAPI = createApi({
     reducerPath: 'wordsApi',
@@ -13,7 +14,8 @@ export const wordsAPI = createApi({
                     ...result.map(({ id }: any) => ({ type: 'words', id })),
                     { type: 'words', id: 'LIST' },
                     ]
-                : [{ type: 'words', id: 'LIST' }], 
+                : [{ type: 'words', id: 'LIST' }],  
+                transformResponse: (resp: Word[]) => resp.sort((a: Word, b: Word) => a.id - b.id)
         }),
         getWordsByGroup: builder.query<any, any>({
             query: (group) =>  `words/group/${group}`,
@@ -23,7 +25,7 @@ export const wordsAPI = createApi({
                     ...result.map(({ id }: any) => ({ type: 'words', id })),
                     { type: 'words', id: 'LIST' },
                     ]
-                : [{ type: 'words', id: 'LIST' }], 
+                : [{ type: 'words', id: 'LIST' }],
         }),
         setWord: builder.mutation<any, any>({
             query: (body) => ({
@@ -33,7 +35,15 @@ export const wordsAPI = createApi({
             }),
             invalidatesTags: ['words']
         }),
+        putWord: builder.mutation<any, any>({
+            query: (body) => ({
+                url: `words`,
+                method: 'PUT',
+                body
+            }),
+            invalidatesTags: ['words']
+        }),
     })
 })
 
-export const { useGetAllWordsQuery, useSetWordMutation, useGetWordsByGroupQuery } = wordsAPI
+export const { useGetAllWordsQuery, useSetWordMutation, useGetWordsByGroupQuery, usePutWordMutation } = wordsAPI
