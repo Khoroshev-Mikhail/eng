@@ -21,7 +21,7 @@ function App() {
   const {data: groups = [], isSuccess} = useGetGroupsQuery()
   const admin = true
   return (
-    <div className='container mx-auto px-4 py-4'>
+    <div className='container mx-auto px-4 py-4 max-w-7xl'>
       <Router>
         <AdminMenu />
         <TopMenu />

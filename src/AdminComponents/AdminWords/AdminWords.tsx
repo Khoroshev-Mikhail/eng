@@ -1,6 +1,6 @@
-import { Button, Table, TextInput } from "flowbite-react"
+import { Button, FileInput, Label, Table, TextInput } from "flowbite-react"
 import { useState } from "react"
-import { useGetAllWordsQuery } from "../../app/API/wordAPI"
+import { useGetAllWordsQuery, useSetWordMutation } from "../../app/API/wordAPI"
 import { Word } from "../../app/types/types"
 import AdminWordsRow from "./AdminWordsRow"
 
@@ -10,12 +10,17 @@ const sortByRus = (a: Word, b: Word) => a.rus.localeCompare(b.rus)
 
 export default function AdminWords(){
     const {data, isSuccess} = useGetAllWordsQuery()
+    const [eng, setEng] = useState<string>('')
+    const [rus, setRus] = useState<string>('')
+    const [img, setImg] = useState<any>()
+    const [audio, setAudio] = useState<any>()
+    const [setWord] = useSetWordMutation()
     const [comparator, setComparator] = useState<{fn: any, increase: boolean}>({fn: sortById, increase: true})
     const [filter, setFilter] = useState<string>('')
     const sorted = isSuccess 
         ? comparator.increase 
-            ? [...data].sort(comparator.fn).filter(el => el.eng.toLowerCase().includes(filter.toLowerCase()) || el.rus.toLowerCase().includes(filter.toLowerCase())) 
-            : [...data].sort(comparator.fn).filter(el => el.eng.toLowerCase().includes(filter.toLowerCase()) || el.rus.toLowerCase().includes(filter.toLowerCase())).reverse()
+            ? [...data].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())) 
+            : [...data].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())).reverse()
         : []
     function toggleComparator(currentComparator: any){
         setComparator(({fn, increase}) => {
@@ -25,31 +30,51 @@ export default function AdminWords(){
             };
         })
     }
+
     return (
         <div> 
-            <div className="my-4 grid grid-cols-7 gap-4">
-                <div className="col-span-3">
-                    <TextInput placeholder="English" value={filter} onChange={(e)=>setFilter(e.target.value)}/>
+            <div className="p-2 my-4 grid grid-cols-9 gap-4 rounded-lg border border-gray-200">
+                <div className="col-span-4">
+                    <TextInput placeholder="English" value={eng} onChange={(e)=>setEng(e.target.value)}/>
                 </div>
-                <div className="col-span-3">
-                    <TextInput placeholder="Русский" value={filter} onChange={(e)=>setFilter(e.target.value)}/>
+                <div className="col-span-4">
+                    <TextInput placeholder="Русский" value={rus} onChange={(e)=>setRus(e.target.value)}/>
                 </div>
                 <div className="col-span-1">
-                    <Button>Добавить слово</Button>
+                    <Button onClick={()=>{
+                        console.log({eng, rus, img, audio})
+                        setWord({eng, rus, img, audio})
+                    }}>Добавить</Button>
+                </div>
+                
+                <div className="col-span-9">  
+                    <Label htmlFor="uploadImage">Изображение</Label>
+                    <FileInput id="uploadImage" name="img" onChange={(e)=>{setImg(e.target.files && e.target.files[0])}}/>
+                </div>
+
+                <div className="col-span-9">  
+                    <Label htmlFor="uploadImage">Аудио</Label>
+                    <FileInput id="uploadAudio" name="audio" onChange={(e)=>{setAudio(e.target.files && e.target.files[0])}}/>    
                 </div>
             </div>
-            <div className="my-4">
-                <TextInput placeholder="Поиск" value={filter} onChange={(e)=>setFilter(e.target.value)}/>
+            
+            <div>
+                <h1>Поиск слов</h1>
+            </div>
+            <div className="p-2 my-4 rounded-lg border border-gray-200">
+                <TextInput placeholder="Поиск..." value={filter} onChange={(e)=>setFilter(e.target.value)}/>
             </div>
 
-            <Table hoverable={true}>
-                <Table.Head>
-                    <Table.HeadCell onClick={()=>toggleComparator(sortById)} className="text-center !px-2 cursor-pointer">ID</Table.HeadCell>
-                    <Table.HeadCell onClick={()=>toggleComparator(sortByEng)} className="cursor-pointer">English</Table.HeadCell>
-                    <Table.HeadCell onClick={()=>toggleComparator(sortByRus)} className="cursor-pointer">Russian</Table.HeadCell>
-                    <Table.HeadCell className="text-center">Delete</Table.HeadCell>
-                </Table.Head>
-                <Table.Body className="divide-y">
+            <div>
+                <h1>Список всех слов</h1>
+            </div>
+            <div className="my-4 grid grid-cols-9 gap-2 rounded-lg border border-gray-200">
+                <div className="col-span-9 grid grid-cols-12 border-b py-2">
+                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortByEng)}>English</div>
+                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortByRus)}>Russian</div>
+                    <div className="col-span-3 text-center">Медиа</div>
+                    <div className="col-span-1 text-center">Delete</div>
+                </div>
                     {isSuccess &&
                     sorted.map((word: Word, i: number) => {
                             return (
@@ -57,8 +82,7 @@ export default function AdminWords(){
                             )
                         })
                     }
-                </Table.Body>
-            </Table>
+            </div>
         </div>
     )
 }
