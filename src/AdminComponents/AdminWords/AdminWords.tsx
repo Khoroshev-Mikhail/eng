@@ -30,7 +30,14 @@ export default function AdminWords(){
             };
         })
     }
-
+    function addNewWord(body: any){
+        const formData = new FormData();
+        formData.append('img', img[0])
+        formData.append('audio', audio[0])
+        formData.append('eng', eng)
+        formData.append('rus', rus)
+        setWord(formData)
+    }
     return (
         <div> 
             <div className="p-2 my-4 grid grid-cols-9 gap-4 rounded-lg border border-gray-200">
@@ -42,19 +49,19 @@ export default function AdminWords(){
                 </div>
                 <div className="col-span-1">
                     <Button onClick={()=>{
-                        console.log({eng, rus, img, audio})
-                        setWord({eng, rus, img, audio})
+                        addNewWord({eng, rus, img, audio})
                     }}>Добавить</Button>
                 </div>
                 
                 <div className="col-span-9">  
                     <Label htmlFor="uploadImage">Изображение</Label>
-                    <FileInput id="uploadImage" name="img" onChange={(e)=>{setImg(e.target.files && e.target.files[0])}}/>
+                    <FileInput id="uploadImage" name="img" onChange={(e)=>{setImg(e.target.files && e.target.files)}}/>
+
                 </div>
 
                 <div className="col-span-9">  
                     <Label htmlFor="uploadImage">Аудио</Label>
-                    <FileInput id="uploadAudio" name="audio" onChange={(e)=>{setAudio(e.target.files && e.target.files[0])}}/>    
+                    <FileInput id="uploadAudio" name="audio" onChange={(e)=>{setAudio(e.target.files && e.target.files)}}/>    
                 </div>
             </div>
             

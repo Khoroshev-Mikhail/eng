@@ -30,9 +30,6 @@ export const wordsAPI = createApi({
         setWord: builder.mutation<any, any>({
             query: (body) => ({
                 url: `words`,
-                headers: {
-                    'content-type': 'image',
-                },
                 method: 'POST',
                 body
             }),
