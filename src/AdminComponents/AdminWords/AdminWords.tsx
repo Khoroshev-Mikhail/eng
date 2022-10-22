@@ -32,11 +32,11 @@ export default function AdminWords(){
     }
     function addNewWord(body: any){
         const formData = new FormData();
-        formData.append('img', img[0])
-        formData.append('audio', audio[0])
-        formData.append('eng', eng)
-        formData.append('rus', rus)
-        setWord(formData)
+        img && formData.append('img', img[0]);
+        audio && formData.append('audio', audio[0]);
+        formData.append('eng', eng);
+        formData.append('rus', rus);
+        setWord(formData);
     }
     return (
         <div> 
