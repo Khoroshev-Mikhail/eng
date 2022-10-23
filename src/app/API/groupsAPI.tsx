@@ -1,21 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
+import { Group } from '../types/types'
 export const groupsAPI = createApi({
     reducerPath: 'groupsApi',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3002/'}),
     tagTypes: ['groups'],
     endpoints: (builder) => ({
-        getGroups: builder.query<any, void>({
+        getGroups: builder.query<Group[], void>({
             query: () =>  `groups`,
             providesTags: (result) =>
                 result
                 ? [
-                    ...result.map(({ id }: any) => ({ type: 'words', id })),
+                    ...result.map(({ id }: any) => ({ type: 'groups' as const, id })),
                     { type: 'groups', id: 'LIST' },
                     ]
                 : [{ type: 'groups', id: 'LIST' }], 
+            transformResponse: (resp: Group[]) => resp.sort((a: Group, b: Group) => a.id - b.id)
         }),
-        setGroup: builder.mutation<any, any>({
+        setGroup: builder.mutation<void, {title: string, title_rus: string}>({
             query: (body) => ({
                 url: `groups`,
                 method: 'POST',
@@ -23,7 +24,7 @@ export const groupsAPI = createApi({
             }),
             invalidatesTags: ['groups']
         }),
-        deleteGroup: builder.mutation<any, any>({
+        deleteGroup: builder.mutation<void, number>({
             query: (id) => ({
                 url: `groups`,
                 method: 'DELETE',
@@ -31,7 +32,7 @@ export const groupsAPI = createApi({
             }),
             invalidatesTags: ['groups']
         }),
-        putGroup: builder.mutation<any, any>({
+        putGroup: builder.mutation<void, {id: number, title: string, title_rus: string}>({
             query: (body) => ({
                 url: `groups`,
                 method: 'PUT',
@@ -39,7 +40,7 @@ export const groupsAPI = createApi({
             }),
             invalidatesTags: ['groups']
         }),
-        addWordToGroup: builder.mutation<any, any>({
+        addWordToGroup: builder.mutation<void, {id: number, word_id: number}>({
             query: (body) => ({
                 url: `addWordToGroup`,
                 method: 'PUT',
@@ -47,7 +48,7 @@ export const groupsAPI = createApi({
             }),
             invalidatesTags: ['groups']
         }),
-        deleteWordFromGroup: builder.mutation<any, any>({
+        deleteWordFromGroup: builder.mutation<void, {id: number, word_id: number}>({
             query: (body) => ({
                 url: `deleteWordFromGroup`,
                 method: 'PUT',

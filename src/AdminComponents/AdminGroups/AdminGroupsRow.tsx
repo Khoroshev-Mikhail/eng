@@ -10,7 +10,7 @@ export default function AdminGroupsRow(props: Group){
     const [title_rus, setTitleRus] = useState(props.title_rus)
     function changeEngslih(e: any){
         setTitle(e.target.value)
-        putGroup({id: props.id, eng: e.target.value, title_rus}) //как решается вот эта ассинхронность кроме костылей?
+        putGroup({id: props.id, title: e.target.value, title_rus}) //как решается вот эта ассинхронность кроме костылей?
     }
     function changeRussian(e: any){
         setTitleRus(e.target.value)

@@ -9,7 +9,7 @@ export default function AdminWordsRowGroups(props: any){
     return (
         <div className={`p-2 col-span-11 gap-2 grid grid-cols-1`}>
             {isSuccess &&
-                [...data].sort((a: Group, b: Group) => a.id - b.id).map((group: Group, i: number) => {
+                data.map((group: Group, i: number) => {
                     return (
                         <div key={i}>
                             <Checkbox
