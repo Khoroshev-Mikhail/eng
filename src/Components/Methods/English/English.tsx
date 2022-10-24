@@ -1,9 +1,8 @@
-import { Card, Image, Button } from 'semantic-ui-react'
 import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabulary'
 import { Word, Group} from '../../../app/types/types'
-import css from './english.module.css'
 export default function English(props: Group){
     const method = 'english'
+    const defaultImg = '51_ccc.jpeg'
     const userId = 1
     const { data, isSuccess } = useGetUnlernedQuery({userId, method, groupId: props.id})
     const [ setVocabulary ] = useSetVocabularyMutation()
@@ -20,7 +19,7 @@ export default function English(props: Group){
             {isSuccess && 
             <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
-                    <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
+                    <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + (data.trueVariant.img || defaultImg)} alt="" />
                 </a>
                 <div className="p-5">
                     <h5 className="mb-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{data.trueVariant.eng}</h5>

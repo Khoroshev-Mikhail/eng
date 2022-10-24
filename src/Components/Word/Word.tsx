@@ -12,6 +12,7 @@ export default function Word(){
     const [setVocabulary] = useSetVocabularyMutation()
     const [word, setWord] = useState<WordType>()
     const [falses, setFalses] = useState<WordType[]>([])
+    const defaultImg = 'https://react.semantic-ui.com/images/avatar/large/matthew.png'
     useEffect(()=>{
         isSuccessVocabulary && isSuccessWordsByGroup && setWord(unlernedWord(vocabulary.english, wordsByGroup))
     }, [vocabulary, wordsByGroup, isSuccessVocabulary, isSuccessWordsByGroup])
@@ -20,7 +21,7 @@ export default function Word(){
     }, [word])
     return(
         <Card centered fluid={document.documentElement.clientWidth < 800 ? true : false}>
-            <Image onClick={()=>alert('repeat audio')} src='https://react.semantic-ui.com/images/avatar/large/matthew.png' centered wrapped ui={false} className={css.pointer}/>
+            <Image onClick={()=>alert('repeat audio')} src={defaultImg} centered wrapped ui={false} className={css.pointer}/>
             <Card.Content>
                 <Card.Header textAlign='center' className={css.pointer}>{word ? word.eng : ' '}</Card.Header>
             </Card.Content>

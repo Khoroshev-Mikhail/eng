@@ -8,6 +8,8 @@ export type Word = {
     id: number, 
     eng: string,
     rus: string,
+    img: string,
+    audio: string
 }
 
 export type Group = {

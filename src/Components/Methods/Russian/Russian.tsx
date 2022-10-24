@@ -1,9 +1,8 @@
-import { Card, Image, Button } from 'semantic-ui-react'
 import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabulary'
 import { Word, Group} from '../../../app/types/types'
-import css from './russian.module.css'
 export default function Russian(props: Group){
     const method = 'russian'
+    const defaultImg = '51_ccc.jpeg'
     const userId = 1
     const { data, isSuccess } = useGetUnlernedQuery({userId, method, groupId: props.id})
     const [ setVocabulary ] = useSetVocabularyMutation()
@@ -16,23 +15,23 @@ export default function Russian(props: Group){
         }
     }
     return(
-        <>
+        <>  
             {isSuccess && 
-                <Card centered fluid={document.documentElement.clientWidth < 800 ? true : false}>
-                    <Image onClick={()=>alert('repeat audio')} src='https://react.semantic-ui.com/images/avatar/large/matthew.png' centered wrapped ui={false} className={css.pointer}/>
-                    <Card.Content>
-                        <Card.Header textAlign='center' className={css.pointer}>{data.trueVariant.rus}</Card.Header>
-                    </Card.Content>
-                    <Card.Content>
-                        {data.falseVariant.map((el: Word, i: number) => {
-                            return (
-                                <Button onClick={()=>answer(el.id)} key={i} fluid basic color='green' size='huge' className={css.marginButtons}>
-                                    {el.eng}
-                                </Button>
-                            )
-                        })}
-                    </Card.Content>
-                </Card>
+            <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                <a href="#">
+                    <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + (data.trueVariant.img || defaultImg)} alt="" />
+                </a>
+                <div className="p-5">
+                    <h5 className="mb-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{data.trueVariant.rus}</h5>
+                    {data.falseVariant.map((el: Word, i: number) => {
+                        return (
+                            <button onClick={()=>answer(el.id)} key={i} type="button" className="text-green-700 py-4 my-4 w-full hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800">
+                                {el.eng}
+                            </button>
+                        )
+                    })} 
+                </div>
+            </div>
             }
         </>
     )

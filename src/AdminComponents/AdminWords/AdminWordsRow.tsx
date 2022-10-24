@@ -12,7 +12,7 @@ export default function AdminWordsRow(props: Word){
     const [hidden, setHidden] = useState<boolean>(false)
     function changeEngslih(e: any){
         setEng(e.target.value)
-        putWord({id: props.id, eng: e.target.value, rus}) //как решается вот эта ассинхронность кроме костылей?
+        putWord({id: props.id, eng: e.target.value, rus}) //как решается вот эта ассинхронность кроме костылей c useEffect?
         //Добавить анимацию
     }
     function changeRussian(e: any){
