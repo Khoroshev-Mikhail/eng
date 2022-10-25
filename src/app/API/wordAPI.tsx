@@ -50,7 +50,7 @@ export const wordsAPI = createApi({
                 body: {id}
             }),
             invalidatesTags: ['words']
-        }),
+        })
     })
 })
 

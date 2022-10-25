@@ -1,6 +1,5 @@
 import 'semantic-ui-css/semantic.min.css'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Container } from 'semantic-ui-react';
 import TopMenu from './Components/TopMenu/TopMenu';
 import Groups from './Components/Groups/Groups';
 import Grammar from "./Components/Grammar/Grammar";
@@ -16,6 +15,7 @@ import Footer from './Components/Footer/Footer';
 import AdminMenu from './AdminComponents/AdminMenu/AdminMenu';
 import AdminWords from './AdminComponents/AdminWords/AdminWords';
 import AdminGroups from './AdminComponents/AdminGroups/AdminGroups';
+import BreadCrumb from './Components/BreadCrumbp/BreadCrumb';
 
 function App() {
   const {data: groups = [], isSuccess} = useGetGroupsQuery()
@@ -25,13 +25,14 @@ function App() {
       <Router>
         <AdminMenu />
         <TopMenu />
+        <BreadCrumb />
         <Routes>
           {admin && <Route path="/adminWords" element={<AdminWords />} />}
           {admin && <Route path="/adminGroups" element={<AdminGroups />} />}
           
           <Route path="/" element={<Groups />} />
-          <Route path="/Grammar" element={<Grammar />} />
-          <Route path="/Texts" element={<Texts />} />
+          <Route path="/grammar" element={<Grammar />} />
+          <Route path="/texts" element={<Texts />} />
           {isSuccess && groups.map((el: any, i: number) => {
               return (
                 <React.Fragment key={i}>

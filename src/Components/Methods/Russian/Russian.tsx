@@ -1,4 +1,4 @@
-import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabulary'
+import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabularyAPI'
 import { Word, Group} from '../../../app/types/types'
 export default function Russian(props: Group){
     const method = 'russian'
@@ -16,7 +16,7 @@ export default function Russian(props: Group){
     }
     return(
         <>  
-            {isSuccess && 
+            {isSuccess && data &&
             <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
                     <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + (data.trueVariant.img || defaultImg)} alt="" />
@@ -33,6 +33,18 @@ export default function Russian(props: Group){
                 </div>
             </div>
             }
+            {!data &&
+            <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                <a href="#">
+                    <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + defaultImg} alt="" />
+                </a>
+                <div className="p-5">
+                    <h5 className="mb-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Completed</h5>
+                    
+                </div>
+            </div>
+            }
         </>
+        
     )
 }

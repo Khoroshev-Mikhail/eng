@@ -27,8 +27,12 @@ export const vocabularyAPI = createApi({
                 method: 'PUT'
             }),
             invalidatesTags: ['vocabulary']
-        })
+        }),
+        getGroupProgess: builder.query<{english: number, russian: number, spelling: number, auding: number}, {groupId: number, userId: number}>({
+            query: (body) =>  `groups/${body.groupId}/progress/${body.userId}`,
+            providesTags: ['vocabulary'], 
+        }),
     })
 })
 
-export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useWrongAnswerMutation } = vocabularyAPI
+export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useWrongAnswerMutation, useGetGroupProgessQuery } = vocabularyAPI

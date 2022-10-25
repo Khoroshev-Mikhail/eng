@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { groupsAPI } from './API/groupsAPI';
-import { vocabularyAPI } from './API/vocabulary';
+import { vocabularyAPI } from './API/vocabularyAPI';
 import { wordsAPI } from './API/wordAPI';
 export const store = configureStore({
   reducer: {

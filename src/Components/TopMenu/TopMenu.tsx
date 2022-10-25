@@ -1,27 +1,24 @@
-import { useState } from "react"
 import { Navbar } from "flowbite-react";
-import { Link } from 'react-router-dom'
+import {useLinkClickHandler, useLocation} from "react-router-dom";
+
 export default function TopMenu(){
-    const [activeItem, setActiveItem] = useState<string>('Words')
+  const location = useLocation();
+  const goMain = useLinkClickHandler("/");
     return (
       <div className="mb-4">
-        <Navbar
-            fluid={true}
-            rounded={true}
-            >
+        <Navbar fluid={true} rounded={true}>
             <Navbar.Brand href="/">
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-                EngStudy
+                <span onClick={goMain} className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+                    StudyWord
                 </span>
             </Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse>
-                <Navbar.Link
-                href="/navbars"
-                active={true}
-                >
-                Home
-                </Navbar.Link>
+              <span onClick={goMain}>
+                  <Navbar.Link href="/" active={location.pathname === '/'} color='dark'>
+                  Группы слов
+                  </Navbar.Link>
+                </span>
             </Navbar.Collapse>
         </Navbar>
       </div>

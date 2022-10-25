@@ -109,7 +109,7 @@ export default function AdminWords(){
                     <div className="col-span-3 text-center">Медиа</div>
                     <div className="col-span-1 text-center">Delete</div>
                 </div>
-                    {isSuccess &&
+                    {isSuccess && isSuccessGroups &&
                     sorted.map((word: Word, i: number) => {
                             return (
                                 <AdminWordsRow key={i} {...word}/>

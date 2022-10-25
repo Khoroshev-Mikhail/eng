@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { Card, Icon, Image, Container, Button } from 'semantic-ui-react'
-import { useGetVocabularyQuery, useSetVocabularyMutation } from '../../app/API/vocabulary'
+import { useGetVocabularyQuery, useSetVocabularyMutation } from '../../app/API/vocabularyAPI'
 import { useGetAllWordsQuery, useGetWordsByGroupQuery } from '../../app/API/wordAPI'
 import { falseVariants, unlernedGroup, unlernedWord } from '../../app/fns'
 import { Word as WordType } from '../../app/types/types'

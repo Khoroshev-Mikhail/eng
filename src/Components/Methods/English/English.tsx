@@ -1,10 +1,10 @@
-import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabulary'
+import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabularyAPI'
 import { Word, Group} from '../../../app/types/types'
 export default function English(props: Group){
     const method = 'english'
     const defaultImg = '51_ccc.jpeg'
     const userId = 1
-    const { data, isSuccess } = useGetUnlernedQuery({userId, method, groupId: props.id})
+    const { data, isSuccess} = useGetUnlernedQuery({userId, method, groupId: props.id})
     const [ setVocabulary ] = useSetVocabularyMutation()
     const [ wrongAnswer ] = useWrongAnswerMutation()
     const answer = (id: number) => {
@@ -14,9 +14,10 @@ export default function English(props: Group){
             wrongAnswer(1)
         }
     }
+    console.log(data, data === true)
     return(
         <>  
-            {isSuccess && 
+            {isSuccess && data !== null && data !== undefined &&
             <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
                     <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + (data.trueVariant.img || defaultImg)} alt="" />

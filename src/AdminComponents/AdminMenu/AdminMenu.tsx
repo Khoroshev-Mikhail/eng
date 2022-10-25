@@ -11,7 +11,7 @@ export default function AdminMenu(){
             <Navbar fluid={true} rounded={true} >
             <Navbar.Brand href="">
                 <span onClick={goMain} className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-                    Admin panel
+                    {/*Admin panel*/}
                 </span>
             </Navbar.Brand>
                 <Navbar.Toggle />
