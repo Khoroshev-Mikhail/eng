@@ -1,10 +1,11 @@
 import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabularyAPI'
 import { Word, Group} from '../../../app/types/types'
+import Completed from '../../Comlpeted/Completed'
 export default function English(props: Group){
     const method = 'english'
     const defaultImg = '51_ccc.jpeg'
     const userId = 1
-    const { data, isSuccess} = useGetUnlernedQuery({userId, method, groupId: props.id})
+    const { data, isSuccess } = useGetUnlernedQuery({userId, method, groupId: props.id})
     const [ setVocabulary ] = useSetVocabularyMutation()
     const [ wrongAnswer ] = useWrongAnswerMutation()
     const answer = (id: number) => {
@@ -14,7 +15,6 @@ export default function English(props: Group){
             wrongAnswer(1)
         }
     }
-    console.log(data, data === true)
     return(
         <>  
             {isSuccess && data !== null && data !== undefined &&
@@ -34,6 +34,7 @@ export default function English(props: Group){
                 </div>
             </div>
             }
+            {!data && <Completed /> }
         </>
     )
 }

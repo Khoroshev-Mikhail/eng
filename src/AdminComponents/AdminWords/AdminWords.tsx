@@ -27,6 +27,7 @@ export default function AdminWords(){
             ? [...data].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())) 
             : [...data].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())).reverse()
         : []
+    const nulls = isSuccess ? [...data].filter(el => el.rus === null || el.eng === null) : []
     function toggleComparator(currentComparator: any){
         setComparator(({fn, increase}) => {
             return {
@@ -110,12 +111,18 @@ export default function AdminWords(){
                     <div className="col-span-1 text-center">Delete</div>
                 </div>
                     {isSuccess && isSuccessGroups &&
-                    sorted.map((word: Word, i: number) => {
+                        sorted.map((word: Word, i: number) => {
                             return (
                                 <AdminWordsRow key={i} {...word}/>
                             )
                         })
-                    }
+                    }{isSuccess && isSuccessGroups &&
+                        nulls.map((word: Word, i: number) => {
+                                return (
+                                    <AdminWordsRow key={i} {...word}/>
+                                )
+                            })
+                        }
             </div>
         </div>
     )

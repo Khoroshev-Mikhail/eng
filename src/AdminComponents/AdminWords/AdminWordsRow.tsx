@@ -25,7 +25,10 @@ export default function AdminWordsRow(props: Word){
     }, [props])
     return (
         <div className="col-span-9 grid grid-cols-12 gap-x-2 border-b border-gray-200 pb-2">
-            <div className="pl-2 col-span-4 cursor-pointer">
+            <div className="pl-2 col-span-1 cursor-pointer">
+                {props.id}
+            </div>
+            <div className="pl-2 col-span-3 cursor-pointer">
                 <TextInput placeholder="Word" value={eng} onChange={changeEngslih} />
             </div>
             <div className="col-span-4 cursor-pointer">
