@@ -21,15 +21,7 @@ export default function Word(){
     }, [word])
     return(
         <Card centered fluid={document.documentElement.clientWidth < 800 ? true : false}>
-            <Image onClick={()=>alert('repeat audio')} src={defaultImg} centered wrapped ui={false} className={css.pointer}/>
-            <Card.Content>
-                <Card.Header textAlign='center' className={css.pointer}>{word ? word.eng : ' '}</Card.Header>
-            </Card.Content>
-            <Card.Content>
-                {falses && falses.map((el: WordType, i: number) => {
-                    return <Button onClick={el.eng === word?.eng ? ()=>setVocabulary({word_id: el.id, user_id: 1, method: 'english'}) : ()=>{/* Запустить перерендер */}} key={id+i} fluid basic color='green' size='huge' className={css.marginButtons}>{el ? el.rus : ' '}</Button>
-                })}
-            </Card.Content>
+           
         </Card>
 
     )

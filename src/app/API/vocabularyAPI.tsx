@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { Word } from '../types/types'
 
 export const vocabularyAPI = createApi({
     reducerPath: 'vocabularyApi',
@@ -9,11 +10,16 @@ export const vocabularyAPI = createApi({
             query: (id: any) =>  `vocabulary/${id}`,
             providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
         }),
-        getUnlerned: builder.query<any, any>({
+        getUnlerned: builder.query<any, any>({ //может надо разбить на отдельные методы лучше
             query: (req) =>  `/vocabulary/${req.userId}/unlerned/${req.method}/group/${req.groupId}`,
             providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
         }),
-        setVocabulary: builder.mutation<any, any>({
+        getUnlernedSpell: builder.query<any, any>({ //может надо разбить на отдельные методы лучше
+            query: (req) =>  `/vocabulary/${req.userId}/unlerned/spelling/group/${req.groupId}`,
+            providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
+            transformResponse: (resp: Word) => ({...resp, trueVariant: resp.eng, eng: resp.eng.toUpperCase().split('').sort(() => Math.random() - 0.5).join('')})
+        }),
+        setVocabulary: builder.mutation<any, {method: string, word_id: number, userId: number}>({
             query: (body) => ({
                 url: `vocabulary/${body.userId}/${body.method}`,
                 method: 'PUT',
@@ -35,4 +41,4 @@ export const vocabularyAPI = createApi({
     })
 })
 
-export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useWrongAnswerMutation, useGetGroupProgessQuery } = vocabularyAPI
+export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useGetUnlernedSpellQuery, useWrongAnswerMutation, useGetGroupProgessQuery } = vocabularyAPI
