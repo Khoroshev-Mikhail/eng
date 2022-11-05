@@ -1,18 +1,17 @@
-import { useGetUnlernedQuery, useSetVocabularyMutation, useWrongAnswerMutation } from '../../../app/API/vocabularyAPI'
+import { useGetUnlernedQuery, useSetVocabularyMutation } from '../../../app/API/vocabularyAPI'
 import { Word, Group} from '../../../app/types/types'
 import Completed from '../../Comlpeted/Completed'
 export default function English(props: Group){
     const method = 'english'
     const defaultImg = '51_ccc.jpeg'
     const userId = 1
-    const { data, isSuccess } = useGetUnlernedQuery({userId, method, groupId: props.id})
+    const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: props.id})
     const [ setVocabulary ] = useSetVocabularyMutation()
-    const [ wrongAnswer ] = useWrongAnswerMutation()
     const answer = (id: number) => {
         if(data.trueVariant.id === id){
             setTimeout(()=> setVocabulary({userId, method, word_id: id}), 1000)
         } else{
-            wrongAnswer(1)
+            refetch()
         }
     }
     return(

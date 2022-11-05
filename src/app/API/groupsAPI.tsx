@@ -2,11 +2,17 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Group } from '../types/types'
 export const groupsAPI = createApi({
     reducerPath: 'groupsApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3002/'}),
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:3002/groups',
+        prepareHeaders: (headers: Headers) => {
+            headers.set('Authorization', `Bearer Ara`)
+            return headers
+        }
+    }),
     tagTypes: ['groups'],
     endpoints: (builder) => ({
         getGroups: builder.query<Group[], void>({
-            query: () =>  `groups`,
+            query: () =>  `/`,
             providesTags: (result) =>
                 result
                 ? [
@@ -18,7 +24,7 @@ export const groupsAPI = createApi({
         }),
         setGroup: builder.mutation<void, {title: string, title_rus: string}>({
             query: (body) => ({
-                url: `groups`,
+                url: `/`,
                 method: 'POST',
                 body
             }),
@@ -26,7 +32,7 @@ export const groupsAPI = createApi({
         }),
         deleteGroup: builder.mutation<void, number>({
             query: (id) => ({
-                url: `groups`,
+                url: `/`,
                 method: 'DELETE',
                 body: {id}
             }),
@@ -34,7 +40,7 @@ export const groupsAPI = createApi({
         }),
         putGroup: builder.mutation<void, {id: number, title: string, title_rus: string}>({
             query: (body) => ({
-                url: `groups`,
+                url: `/`,
                 method: 'PUT',
                 body
             }),

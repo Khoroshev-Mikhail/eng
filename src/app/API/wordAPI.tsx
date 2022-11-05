@@ -3,11 +3,17 @@ import { Word } from '../types/types'
 
 export const wordsAPI = createApi({
     reducerPath: 'wordsApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3002/'}),
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'http://localhost:3002/words',
+        prepareHeaders: (headers: Headers) => {
+            headers.set('Authorization', `Bearer Ara`)
+            return headers
+        }
+    }),
     tagTypes: ['words'],
     endpoints: (builder) => ({
         getAllWords: builder.query<Word[], void>({
-            query: () =>  `words`,
+            query: () =>  `/`,
             providesTags: (result) =>
                 result
                 ? [
@@ -18,7 +24,7 @@ export const wordsAPI = createApi({
                 transformResponse: (resp: Word[]) => resp.sort((a: Word, b: Word) => a.id - b.id)
         }),
         getWordsByGroup: builder.query<Word[], number>({
-            query: (group) =>  `words/group/${group}`,
+            query: (group) =>  `/group/${group}`,
             providesTags: (result) =>
                 result
                 ? [
@@ -29,7 +35,7 @@ export const wordsAPI = createApi({
         }),
         setWord: builder.mutation<number, any>({ //Надо установить npm install --save @types/formdata
             query: (body) => ({
-                url: `words`,
+                url: `/`,
                 method: 'POST',
                 body
             }),
@@ -37,7 +43,7 @@ export const wordsAPI = createApi({
         }),
         putWord: builder.mutation<void, any>({
             query: (body) => ({
-                url: `words`,
+                url: `/`,
                 method: 'PUT',
                 body
             }),
@@ -45,7 +51,7 @@ export const wordsAPI = createApi({
         }),
         deleteWord: builder.mutation<void, number>({
             query: (id) => ({
-                url: `words`,
+                url: `/`,
                 method: 'DELETE',
                 body: {id}
             }),

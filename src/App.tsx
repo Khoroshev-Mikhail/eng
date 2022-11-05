@@ -16,6 +16,7 @@ import AdminMenu from './AdminComponents/AdminMenu/AdminMenu';
 import AdminWords from './AdminComponents/AdminWords/AdminWords';
 import AdminGroups from './AdminComponents/AdminGroups/AdminGroups';
 import BreadCrumb from './Components/BreadCrumbp/BreadCrumb';
+import Auth from './Components/Auth/Auth';
 
 function App() {
   const {data: groups = [], isSuccess} = useGetGroupsQuery()
@@ -31,6 +32,7 @@ function App() {
           {admin && <Route path="/adminGroups" element={<AdminGroups />} />}
           
           <Route path="/" element={<Groups />} />
+          <Route path="/authorization" element={<Auth />} />
           <Route path="/grammar" element={<Grammar />} />
           <Route path="/texts" element={<Texts />} />
           {isSuccess && groups.map((el: any, i: number) => {

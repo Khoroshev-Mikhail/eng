@@ -4,11 +4,9 @@ import {useLinkClickHandler, useLocation} from "react-router-dom";
 
 export default function TopMenu(){
   const userId = false
-  const [authFromVisible, setAuthFormVisible] = useState<boolean>(false)
-  const [login, setLogin] = useState<string>('')
-  const [pwd, setPwd] = useState<string>('')
   const location = useLocation();
   const goMain = useLinkClickHandler("/");
+  const goAuth = useLinkClickHandler("/authorization");
     return (
       <div className="mb-4">
         <Navbar fluid={true} rounded={true}>
@@ -24,18 +22,10 @@ export default function TopMenu(){
                   Группы слов
                   </Navbar.Link>
               </span>
-              <span className="cursor-pointer">
-                {!userId && !authFromVisible ?
-                  <span onClick={()=>setAuthFormVisible(!authFromVisible)}>
-                    {userId ? 'Выход' : 'Вход / Регистрация'}
-                  </span>
-                :
-                <span>
-                  <input type={'text'} value={login} onChange={(e)=>setLogin(e.target.value)}/>
-                  <input type={'text'} value={pwd} onChange={(e)=>setPwd(e.target.value)}/>
-                  <button>go!</button>
-                </span>
-                }
+              <span onClick={goAuth}>
+                  <Navbar.Link href="/" active={location.pathname === '/authorization'} color='dark'>
+                  {userId ? 'Выход' : 'Вход / Регистрация'}
+                  </Navbar.Link>
               </span>
             </Navbar.Collapse>
         </Navbar>
