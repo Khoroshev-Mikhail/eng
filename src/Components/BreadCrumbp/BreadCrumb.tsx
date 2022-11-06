@@ -17,6 +17,7 @@ export default function(){
         { path: "/:Group/Russian", breadcrumb: "Русский - Английский" },
         { path: "/:Group/Spelling", breadcrumb: "По буквам" },
         { path: "/:Group/Auding", breadcrumb: "Аудирование" },
+        { path: "/Authorization", breadcrumb: "Авторизация" },
       ];
     const routesFromGroup: RouteType[] = isSuccess ? groups.map(el => ({path: el.title, breadcrumb: el.title_rus})) : []
     const routes = defaultRoutes.concat(routesFromGroup)

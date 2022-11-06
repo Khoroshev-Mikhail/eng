@@ -1,10 +1,12 @@
+import { useSelector } from 'react-redux'
 import { useGetUnlernedQuery, useSetVocabularyMutation } from '../../../app/API/vocabularyAPI'
+import { RootState } from '../../../app/store'
 import { Word, Group} from '../../../app/types/types'
 import Completed from '../../Comlpeted/Completed'
 export default function English(props: Group){
+    const { id: userId } = useSelector((state: RootState) => state.userData)
     const method = 'english'
     const defaultImg = '51_ccc.jpeg'
-    const userId = 1
     const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: props.id})
     const [ setVocabulary ] = useSetVocabularyMutation()
     const answer = (id: number) => {

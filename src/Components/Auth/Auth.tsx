@@ -11,13 +11,13 @@ export default function Auth(){
                     <div className="mb-2 block">
                     <Label
                         htmlFor="email1"
-                        value="Your email"
+                        value="Your login or email"
                     />
                     </div>
                     <TextInput
                         id="email1"
                         type="email"
-                        placeholder="name@flowbite.com"
+                        placeholder="Login"
                         required={true}
                         value={login}
                         onChange={(e)=>setLogin(e.target.value)}
@@ -33,6 +33,7 @@ export default function Auth(){
                     <TextInput
                         id="password1"
                         type="password"
+                        placeholder="Password"
                         required={true}
                         value={pwd}
                         onChange={(e)=>setPwd(e.target.value)}

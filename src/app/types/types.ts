@@ -11,10 +11,15 @@ export type Word = {
     img: string,
     audio: string
 }
-
 export type Group = {
     id: number, 
     title: string,
     title_rus: string,
     word_ids: number[]
+}
+export type User = {
+    id: number,
+    email: string,
+    login: string,
+    user_name: string
 }
