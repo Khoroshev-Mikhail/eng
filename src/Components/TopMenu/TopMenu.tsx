@@ -1,8 +1,10 @@
 import { Button, Navbar, TextInput } from "flowbite-react";
 import { useState } from "react";
 import {useLinkClickHandler, useLocation} from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
 
 export default function TopMenu(){
+  const user = useAppSelector(state => state.userData)
   const userId = false
   const location = useLocation();
   const goMain = useLinkClickHandler("/");
@@ -26,6 +28,9 @@ export default function TopMenu(){
                   <Navbar.Link href="/" active={location.pathname === '/authorization'} color='dark'>
                   {userId ? 'Выход' : 'Вход / Регистрация'}
                   </Navbar.Link>
+              </span>
+              <span>
+                  {user.id}
               </span>
             </Navbar.Collapse>
         </Navbar>

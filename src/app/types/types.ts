@@ -19,7 +19,10 @@ export type Group = {
 }
 export type User = {
     id: number,
-    email: string,
-    login: string,
-    user_name: string
+    email?: string | null,
+    user_login?: string | null,
+    user_name?: string | null,
+    token?: string | null,
+    refresh_token?: string | null,
+    jwtExpire?: string | Date | null,
 }

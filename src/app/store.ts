@@ -5,7 +5,7 @@ import { vocabularyAPI } from './API/vocabularyAPI';
 import { wordsAPI } from './API/wordAPI';
 export const store = configureStore({
   reducer: {
-    [wordsAPI.reducerPath]: wordsAPI.reducer,
+    [wordsAPI.reducerPath]: wordsAPI.reducer, //Какнибудь представить разделение стора на админку и пользователя
     [groupsAPI.reducerPath]: groupsAPI.reducer,
     [vocabularyAPI.reducerPath]: vocabularyAPI.reducer,
     userData: userSlice.reducer
