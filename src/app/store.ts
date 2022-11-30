@@ -3,6 +3,7 @@ import { groupsAPI } from './API/groupsAPI';
 import { userSlice } from './API/userAPI';
 import { vocabularyAPI } from './API/vocabularyAPI';
 import { wordsAPI } from './API/wordAPI';
+
 export const store = configureStore({
   reducer: {
     [wordsAPI.reducerPath]: wordsAPI.reducer, //Какнибудь представить разделение стора на админку и пользователя

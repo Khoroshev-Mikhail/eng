@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Word } from '../types/types'
+import { REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables'
 
 export const wordsAPI = createApi({
     reducerPath: 'wordsApi',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:3002/words',
         prepareHeaders: (headers: Headers) => {
-            headers.set('Authorization', `Bearer Ara`)
+            headers.set('Authorization', `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`)
             return headers
         }
     }),

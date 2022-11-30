@@ -2,12 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { Word } from '../types/types'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { exitThunk } from './userAPI';
+import { JWT_EXPIRE, REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables';
 
 const baseQuery = fetchBaseQuery({ 
     //const token = (getState() as RootState).userToken;
     baseUrl: 'http://localhost:3002/vocabulary',
     prepareHeaders: (headers: Headers) => {
-      headers.set('Authorization', `Bearer ${localStorage.getItem('token') || 'unknown' } ${localStorage.getItem('refreshToken') || 'unknown'}`)
+      headers.set('Authorization', `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`)
       return headers
     }
    })
@@ -20,16 +21,16 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
                 'Content-Type': 'application/json;charset=utf-8'
             }, 
             body: JSON.stringify({
-                refreshToken: localStorage.getItem('refreshToken')
+                refreshToken: localStorage.getItem(REFRESH_TOKEN)
             })
         })
         if(refresh.status === 200){
             const data = await refresh.json()   
-            localStorage.setItem('token', data.newToken)
-            localStorage.setItem('refreshToken', data.newRefresh)
-            localStorage.setItem('jwtExpire', data.jwtExpire)
-            console.log('Токены получены. Перезапускаю функцию')
-            result = await baseQuery(args, api, extraOptions)
+            console.log('Токены получены. Перезапускаю функцию', data)
+            localStorage.setItem(TOKEN, data.token)
+            localStorage.setItem(REFRESH_TOKEN, data.refresh_token)
+            localStorage.setItem(JWT_EXPIRE, data.jwt_expire)
+            return await baseQuery(args, api, extraOptions)
         } else{
             console.log('Ошибка токена. Диспатчу exitThunk()')
             api.dispatch(exitThunk())

@@ -17,20 +17,20 @@ import AdminWords from './AdminComponents/AdminWords/AdminWords';
 import AdminGroups from './AdminComponents/AdminGroups/AdminGroups';
 import BreadCrumb from './Components/BreadCrumbp/BreadCrumb';
 import Auth from './Components/Auth/Auth';
-import { useAppDispatch } from './app/hooks';
+import { useAppDispatch, useAppSelector } from './app/hooks/hooks';
 import { loginByRefreshThunk } from './app/API/userAPI';
+import { RootState } from './app/store';
 
 function App() {
-  const dispatch = useAppDispatch()
-    const {data: groups = [], isSuccess} = useGetGroupsQuery()
-    const admin = true
     useEffect(()=>{
-        console.log(localStorage.getItem('refreshToken'))
-        if(localStorage.getItem('refreshToken')){ //Вывести строки вроде refreshToken для localStorage в константы в отдельном файле
-            console.log('araa2')
-            dispatch(loginByRefreshThunk())
-        }
+        dispatch(loginByRefreshThunk())
+        document.cookie = encodeURIComponent('name') + '=' + encodeURIComponent('Mike');
+        console.log(document.cookie)
     }, [])
+    const dispatch = useAppDispatch()
+    const {data: groups = [], isSuccess} = useGetGroupsQuery()
+    const { id: userId } = useAppSelector((state: RootState) => state.userData)
+    const admin = userId === 1 //Вывести роли в глобальный стейт
     return (
         <div className='container mx-auto px-4 py-4 max-w-7xl'>
             <Router>

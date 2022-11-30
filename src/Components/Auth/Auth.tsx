@@ -1,7 +1,7 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { exitThunk, loginThunk } from "../../app/API/userAPI";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks/hooks";
 
 export default function Auth(){
     const dispatch = useAppDispatch()

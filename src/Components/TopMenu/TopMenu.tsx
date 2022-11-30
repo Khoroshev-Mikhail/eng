@@ -1,7 +1,6 @@
-import { Button, Navbar, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { Navbar} from "flowbite-react";
 import {useLinkClickHandler, useLocation} from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks/hooks";
 
 export default function TopMenu(){
   const user = useAppSelector(state => state.userData)
