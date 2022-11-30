@@ -1,4 +1,4 @@
-import 'semantic-ui-css/semantic.min.css'
+
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TopMenu from './Components/TopMenu/TopMenu';
 import Groups from './Components/Groups/Groups';
@@ -24,7 +24,7 @@ import { RootState } from './app/store';
 function App() {
     useEffect(()=>{
         dispatch(loginByRefreshThunk())
-        document.cookie = encodeURIComponent('name') + '=' + encodeURIComponent('Mike');
+        document.cookie = encodeURIComponent('name222') + '=' + encodeURIComponent('Mike');
         console.log(document.cookie)
     }, [])
     const dispatch = useAppDispatch()
