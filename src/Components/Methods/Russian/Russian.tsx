@@ -5,11 +5,11 @@ import { RootState } from '../../../app/store'
 import { Word, Group} from '../../../app/types/types'
 import Completed from '../../Comlpeted/Completed'
 export default function Russian(props: any){
-    const { id } = useParams()
+    const { id_group } = useParams()
     const method = 'russian'
     const defaultImg = '51_ccc.jpeg'
     const { id: userId } = useAppSelector((state: RootState) => state.userData)
-    const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: id || 0}) //костыль
+    const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: id_group || 0}) //костыль
     const [ setVocabulary ] = useSetVocabularyMutation()
     const answer = (id: number) => {
         if(data.trueVariant.id === id){

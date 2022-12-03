@@ -8,7 +8,7 @@ const user: User = { id: 0, user_login: null, user_name: null, email: null, toke
 export const loginThunk = createAsyncThunk(
     'loginThunk',
     async function(obj: any) {
-        const response = await fetch('http://localhost:3002/auth', {
+        const response = await fetch('http://localhost:3002/user/auth', {
             method: 'POST',            
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -26,7 +26,7 @@ export const loginThunk = createAsyncThunk(
 export const loginByRefreshThunk = createAsyncThunk(
     'loginByRefreshThunk',
     async function() {
-        const response = await fetch('http://localhost:3002/authByRefreshToken', {
+        const response = await fetch('http://localhost:3002/user/authByRefreshToken', {
             method: 'POST',            
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -47,7 +47,7 @@ export const loginByRefreshThunk = createAsyncThunk(
 export const exitThunk = createAsyncThunk(
     'exitThunk',
     async function() {
-        const response = await fetch(`http://localhost:3002/logout/${localStorage.getItem(ID)}`)//Обратиться с стейт напрямую, и взять оттуда id
+        const response = await fetch(`http://localhost:3002/user/logout/${localStorage.getItem(ID)}`)//Обратиться с стейт напрямую, и взять оттуда id
         const data = await response.json()
         if(response.ok){
             removeUserFromLocalStorage()

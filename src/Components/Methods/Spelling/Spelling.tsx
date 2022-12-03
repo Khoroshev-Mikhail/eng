@@ -7,14 +7,13 @@ import { RootState } from "../../../app/store"
 import { Group } from "../../../app/types/types"
 
 export default function Spelling(props: any){
-    const { id } = useParams()
+    const { id_group } = useParams()
     const { id: userId } = useAppSelector((state: RootState) => state.userData)
-    const {data, isSuccess} = useGetUnlernedSpellQuery({userId, groupId: id || 0}) //Костыль
+    const {data, isSuccess} = useGetUnlernedSpellQuery({userId, groupId: id_group || 0}) //Костыль
     const defaultImg = '51_ccc.jpeg'
     const [answer, setAnswer] = useState<string>('')
     const [eng, setEng] = useState<string>('')
     const [ setVocabulary ] = useSetVocabularyMutation()
-    
     function clickEng(i: number){
         setEng(state => {
             const arr = state.split('')
