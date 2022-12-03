@@ -1,10 +1,9 @@
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TopMenu from './Components/TopMenu/TopMenu';
 import Groups from './Components/Groups/Groups';
 import Grammar from "./Components/Grammar/Grammar";
-import Texts from "./Components/Texts/Texts";
-import MethodMenu from "./Components/MethodMenu/MethodMenu";
+import Texts from "./Components/Texts/TextGrid/TextsGrid";
+import GroupPage from "./Components/GroupPage/GroupPage";
 import English from "./Components/Methods/English/English";
 import Russian from "./Components/Methods/Russian/Russian";
 import Spelling from "./Components/Methods/Spelling/Spelling";
@@ -20,12 +19,13 @@ import Auth from './Components/Auth/Auth';
 import { useAppDispatch, useAppSelector } from './app/hooks/hooks';
 import { loginByRefreshThunk } from './app/API/userAPI';
 import { RootState } from './app/store';
+import TextPage from "./Components/Texts/TextPage/TextPage";
 
 function App() {
     useEffect(()=>{
         dispatch(loginByRefreshThunk())
-        document.cookie = encodeURIComponent('name222') + '=' + encodeURIComponent('Mike');
-        console.log(document.cookie)
+        // document.cookie = encodeURIComponent('name222') + '=' + encodeURIComponent('Mike');
+        // console.log(document.cookie)
     }, [])
     const dispatch = useAppDispatch()
     const {data: groups = [], isSuccess} = useGetGroupsQuery()
@@ -45,19 +45,14 @@ function App() {
                     <Route path="/authorization" element={<Auth />} />
                     <Route path="/grammar" element={<Grammar />} />
                     <Route path="/texts" element={<Texts />} />
-                    {isSuccess && groups.map((el: any, i: number) => {
-                        return (
-                            <React.Fragment key={i}>
-                                <Route path={`/${el.title}`} element={<MethodMenu {...el} />} />
-
-                                <Route path={`/${el.title}/english`} element={<English {...el} />} />
-                                <Route path={`/${el.title}/russian`} element={<Russian {...el} />} />
-                                <Route path={`/${el.title}/spelling`} element={<Spelling {...el} />} />
-                                <Route path={`/${el.title}/auding`} element={<Auding {...el} />} />
-                            </React.Fragment>
-                        )
-                    })}
-                    <Route path="/MethodMenu" element={<MethodMenu />} />
+                    <Route path="/texts/:id_text" element={<TextPage />} />
+                    <Route path="/words" element={<Groups />} />
+                    <Route path="/words/:id_group" element={<GroupPage />} />
+                    <Route path={`/words/:id_group/english`} element={<English />} />
+                    <Route path={`/words/:id_group/russian`} element={<Russian  />} />
+                    <Route path={`/words/:id_group/spelling`} element={<Spelling />} />
+                    <Route path={`/words/:id_group/auding`} element={<Auding />} />
+                    
                 </Routes>
             </Router>
             <Footer />

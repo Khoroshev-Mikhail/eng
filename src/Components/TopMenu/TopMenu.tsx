@@ -7,6 +7,7 @@ export default function TopMenu(){
   const userId = false
   const location = useLocation();
   const goMain = useLinkClickHandler("/");
+  const goTexts = useLinkClickHandler("/texts");
   const goAuth = useLinkClickHandler("/authorization");
     return (
       <div className="mb-4">
@@ -19,13 +20,18 @@ export default function TopMenu(){
             <Navbar.Toggle />
             <Navbar.Collapse>
               <span onClick={goMain}>
-                  <Navbar.Link href="/" active={location.pathname === '/'} color='dark'>
-                  Группы слов
+                  <Navbar.Link href="/words" active={location.pathname === '/'} color='dark'>
+                    Слова
+                  </Navbar.Link>
+              </span>
+              <span onClick={goTexts}>
+                  <Navbar.Link href="/texts" active={location.pathname === '/texts'} color='dark'>
+                    Тексты
                   </Navbar.Link>
               </span>
               <span onClick={goAuth}>
-                  <Navbar.Link href="/" active={location.pathname === '/authorization'} color='dark'>
-                  {userId ? 'Выход' : 'Вход / Регистрация'}
+                  <Navbar.Link href="/authorization" active={location.pathname === '/authorization'} color='dark'>
+                    {userId ? 'Выход' : 'Вход / Регистрация'}
                   </Navbar.Link>
               </span>
               <span>

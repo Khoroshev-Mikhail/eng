@@ -1,11 +1,15 @@
 import { Button, TextInput } from "flowbite-react"
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import { useGetUnlernedSpellQuery, useSetVocabularyMutation } from "../../../app/API/vocabularyAPI"
+import { useAppSelector } from "../../../app/hooks/hooks"
+import { RootState } from "../../../app/store"
 import { Group } from "../../../app/types/types"
 
-export default function Spelling(props: Group){
-    const userId = 1
-    const {data, isSuccess} = useGetUnlernedSpellQuery({userId, groupId: props.id})
+export default function Spelling(props: any){
+    const { id } = useParams()
+    const { id: userId } = useAppSelector((state: RootState) => state.userData)
+    const {data, isSuccess} = useGetUnlernedSpellQuery({userId, groupId: id || 0}) //Костыль
     const defaultImg = '51_ccc.jpeg'
     const [answer, setAnswer] = useState<string>('')
     const [eng, setEng] = useState<string>('')

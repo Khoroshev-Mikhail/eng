@@ -1,13 +1,15 @@
+import { useParams } from 'react-router-dom'
 import { useGetUnlernedQuery, useSetVocabularyMutation } from '../../../app/API/vocabularyAPI'
 import { useAppSelector } from '../../../app/hooks/hooks'
 import { RootState } from '../../../app/store'
 import { Word, Group} from '../../../app/types/types'
 import Completed from '../../Comlpeted/Completed'
-export default function English(props: Group){
+export default function English(props: any){
+    const { id } = useParams()
     const { id: userId } = useAppSelector((state: RootState) => state.userData)
     const method = 'english'
     const defaultImg = '51_ccc.jpeg'
-    const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: props.id})
+    const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: id})
     const [ setVocabulary ] = useSetVocabularyMutation()
     const answer = (id: number) => {
         if(data.trueVariant.id === id){

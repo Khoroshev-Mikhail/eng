@@ -22,6 +22,10 @@ export const groupsAPI = createApi({
                 : [{ type: 'groups', id: 'LIST' }], 
             transformResponse: (resp: Group[]) => resp.sort((a: Group, b: Group) => a.id - b.id)
         }),
+        getOneGroup: builder.query<Group, number>({
+            query: (id: number) =>  `/${id}`,
+            providesTags: (result, error, id) =>[{ type: 'groups', id}]
+        }),
         setGroup: builder.mutation<void, {title: string, title_rus: string}>({
             query: (body) => ({
                 url: `/`,
@@ -65,4 +69,4 @@ export const groupsAPI = createApi({
     })
 })
 
-export const { useGetGroupsQuery, useSetGroupMutation, useDeleteGroupMutation, usePutGroupMutation, useAddWordToGroupMutation, useDeleteWordFromGroupMutation } = groupsAPI
+export const { useGetGroupsQuery, useGetOneGroupQuery, useSetGroupMutation, useDeleteGroupMutation, usePutGroupMutation, useAddWordToGroupMutation, useDeleteWordFromGroupMutation } = groupsAPI

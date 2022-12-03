@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Word } from '../types/types'
+import type { Progress, Word } from '../types/types'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { exitThunk } from './userAPI';
 import { JWT_EXPIRE, REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables';
@@ -38,7 +38,10 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     }
     return result
 }
-
+type QueryBody = {
+    groupId: number | string, 
+    userId: number | string
+}
 export const vocabularyAPI = createApi({
     reducerPath: 'vocabularyApi',
     baseQuery: baseQueryWithReauth,
@@ -65,8 +68,8 @@ export const vocabularyAPI = createApi({
             }),
             invalidatesTags: ['vocabulary']
         }),
-        getGroupProgess: builder.query<{english: number, russian: number, spelling: number, auding: number}, {groupId: number, userId: number}>({
-            query: (body) =>  `groups/${body.groupId}/progress/${body.userId}`,
+        getGroupProgess: builder.query<Progress, QueryBody>({
+            query: (body) =>  `groups/${body.groupId || 0}/progress/${body.userId || 0}`, //костыль, есть кейсы когда в группу кладется undefined, а userId 0, Надо обработать ошибку нормально
             providesTags: ['vocabulary'], 
         }),
     })
