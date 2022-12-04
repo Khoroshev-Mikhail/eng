@@ -4,7 +4,7 @@ import { GroupTitle } from '../types/types'
 export const getAllGlobalGroupsTitlesThunk = createAsyncThunk<GroupTitle[]>(
     'Thunk: getAllGlobalGroupsTitles',
     async function() {
-        const response = await fetch(`http://localhost:3002/groups/global/onlyTitles`)
+        const response = await fetch(`http://localhost:3002/groups/titles`)
         const data = await response.json()
         return data
     }

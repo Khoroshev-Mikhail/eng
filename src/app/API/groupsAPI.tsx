@@ -52,7 +52,7 @@ export const groupsAPI = createApi({
         }),
         addWordToGroup: builder.mutation<void, {id: number, word_id: number}>({
             query: (body) => ({
-                url: `addWordToGroup`,
+                url: `add-word`,
                 method: 'PUT',
                 body
             }),
@@ -60,7 +60,7 @@ export const groupsAPI = createApi({
         }),
         deleteWordFromGroup: builder.mutation<void, {id: number, word_id: number}>({
             query: (body) => ({
-                url: `deleteWordFromGroup`,
+                url: `delete-word`,
                 method: 'PUT',
                 body
             }),
