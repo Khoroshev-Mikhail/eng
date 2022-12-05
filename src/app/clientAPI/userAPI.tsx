@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { ID, REFRESH_TOKEN } from '../variables/localStorageVariables'
 import { removeUserFromLocalStorage, setUserToLocalStorage } from '../fns/localStorageFns'
 import { User } from '../types/types'
+import { RootState } from '../store'
 
 const user: User = { id: 0, user_login: null, user_name: null, email: null, token: null, refresh_token: null, jwtExpire: null }
 
@@ -16,7 +17,7 @@ export const loginThunk = createAsyncThunk(
             body: JSON.stringify({password: obj.password, login: obj.login})
         })
         const user = await response.json()
-        if(response.ok){
+        if(response.ok){ //вынести в МД
             setUserToLocalStorage(user)
         }
         const { id, user_login, email, user_name, jwtExpire } = user
@@ -55,7 +56,6 @@ export const exitThunk = createAsyncThunk(
         return data
     }
 )
-
 export const userSlice = createSlice({
     name: 'userSlice',
     initialState: user,
@@ -70,3 +70,4 @@ export const userSlice = createSlice({
         builder.addCase(exitThunk.fulfilled, (_, action) => user)//попробуй this.initialState
     }
 })
+export const getUserId = (state: RootState) => state.user.id

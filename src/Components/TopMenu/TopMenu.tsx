@@ -3,7 +3,7 @@ import {useLinkClickHandler, useLocation} from "react-router-dom";
 import { useAppSelector } from "../../app/hooks/hooks";
 
 export default function TopMenu(){
-  const user = useAppSelector(state => state.userData)
+  const user = useAppSelector(state => state.user)
   const userId = false
   const location = useLocation();
   const goMain = useLinkClickHandler("/");

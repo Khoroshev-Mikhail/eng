@@ -8,12 +8,12 @@ export default function Russian(props: any){
     const { id_group } = useParams()
     const method = 'russian'
     const defaultImg = '51_ccc.jpeg'
-    const { id: userId } = useAppSelector((state: RootState) => state.userData)
+    const { id: userId } = useAppSelector((state: RootState) => state.user)
     const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: id_group || 0}) //костыль
     const [ setVocabulary ] = useSetVocabularyMutation()
     const answer = (id: number) => {
         if(data.trueVariant.id === id){
-            setTimeout(()=> setVocabulary({userId, method, word_id: id}), 1000)
+            setTimeout(()=> setVocabulary({userId: userId ? userId : 0, method, word_id: id}), 1000)
         } else{
             refetch()
         }

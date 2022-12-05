@@ -15,12 +15,14 @@ export type Group = {
     id: number, 
     title: string,
     title_rus: string,
-    word_ids: number[]
+    word_ids: number[],
+    content_references: Content_references
 };
 export type GroupTitle = {
     id: number, 
     title: string,
     title_rus: string,
+    word_ids: number[]
 };
 export type Text = {
     id: number, 
@@ -37,7 +39,7 @@ export type TextTitle = {
     id_group: number,
 };
 export type User = {
-    id: number,
+    id: number | null,
     email?: string | null,
     user_login?: string | null,
     user_name?: string | null,
@@ -62,5 +64,17 @@ export type References = {
     group: Group | null,
     text: TextTitle | null,
     audio: any | null,
-    video?: any | null,
+    video: any | null,
 } | null;
+
+export type Vocabulary = {
+    english: number[],
+    russian: number[],
+    spelling:  number[],
+    auding: number[],
+}
+export type Learning = {
+    trueVariant: Word,
+    falseVariants: Word[],
+}
+export type Method = 'english' | 'russian' | 'spelling' | 'auding';

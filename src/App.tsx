@@ -8,8 +8,7 @@ import English from "./Components/Methods/English/English";
 import Russian from "./Components/Methods/Russian/Russian";
 import Spelling from "./Components/Methods/Spelling/Spelling";
 import Auding from "./Components/Methods/Auding/Auding";
-import { useGetGroupsQuery } from './app/API/groupsAPI';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Footer from './Components/Footer/Footer';
 import AdminMenu from './AdminComponents/AdminMenu/AdminMenu';
 import AdminWords from './AdminComponents/AdminWords/AdminWords';
@@ -17,20 +16,22 @@ import AdminGroups from './AdminComponents/AdminGroups/AdminGroups';
 import BreadCrumb from './Components/BreadCrumbp/BreadCrumb';
 import Auth from './Components/Auth/Auth';
 import { useAppDispatch, useAppSelector } from './app/hooks/hooks';
-import { loginByRefreshThunk } from './app/API/userAPI';
-import { RootState } from './app/store';
+import { getUserId, loginByRefreshThunk } from './app/clientAPI/userAPI';
 import TextPage from "./Components/Texts/TextPage/TextPage";
+import { getVocabularyThunk } from "./app/clientAPI/vocabularyAPI";
 
 function App() {
+    const userId = useAppSelector(getUserId)
     useEffect(()=>{
         dispatch(loginByRefreshThunk())
-        // document.cookie = encodeURIComponent('name222') + '=' + encodeURIComponent('Mike');
-        // console.log(document.cookie)
     }, [])
+    useEffect(()=>{
+        dispatch(getVocabularyThunk())
+    }, [userId])
+    
     const dispatch = useAppDispatch()
-    const {data: groups = [], isSuccess} = useGetGroupsQuery()
-    const { id: userId } = useAppSelector((state: RootState) => state.userData)
-    const admin = userId === 1 //Вывести роли в глобальный стейт
+    const admin = userId === 1
+    
     return (
         <div className='container mx-auto px-4 py-4 max-w-7xl'>
             <Router>

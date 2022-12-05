@@ -5,7 +5,7 @@ import { Text, TextTitle } from '../types/types'
 export const getAllGlobalTextsTitlesThunk = createAsyncThunk<TextTitle[]>(
     'Thunk: getAllGlobalTextTitles',
     async function() {
-        const response = await fetch(`http://localhost:3002/texts/titles-with-refs`)
+        const response = await fetch(`http://localhost:3002/texts/titles-with-refs`) //Убрать на просто тайтлы
         const data = await response.json()
         return data
     }

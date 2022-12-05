@@ -8,7 +8,7 @@ import { Group } from "../../../app/types/types"
 
 export default function Spelling(props: any){
     const { id_group } = useParams()
-    const { id: userId } = useAppSelector((state: RootState) => state.userData)
+    const { id: userId } = useAppSelector((state: RootState) => state.user)
     const {data, isSuccess} = useGetUnlernedSpellQuery({userId, groupId: id_group || 0}) //Костыль
     const defaultImg = '51_ccc.jpeg'
     const [answer, setAnswer] = useState<string>('')
@@ -20,7 +20,7 @@ export default function Spelling(props: any){
             const currentLetter = arr.splice(i, 1)[0]
             setAnswer(state => {
                 if((state + currentLetter).toUpperCase() === data.trueVariant.toUpperCase()){
-                    setVocabulary({method: 'spelling', userId, word_id: data.id})
+                    setVocabulary({method: 'spelling', userId: userId ? userId : 0, word_id: data.id})
                     setAnswer('')
                 }
                 return state + currentLetter
