@@ -13,8 +13,8 @@ export default function AdminWordsRowGroups(props: any){
                     return (
                         <div key={i}>
                             <Checkbox
-                                checked={group.word_ids.includes(props.word_id)} 
-                                onChange={group.word_ids.includes(props.word_id) 
+                                checked={group.words.includes(props.word_id)} 
+                                onChange={group.words.includes(props.word_id) 
                                     ? ()=>{deleteWordFromGroup({id: group.id, word_id: props.word_id})} 
                                     : ()=>{addWordToGroup({id: group.id, word_id: props.word_id})}
                                 }

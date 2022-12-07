@@ -2,12 +2,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TopMenu from './Components/TopMenu/TopMenu';
 import Groups from './Components/Groups/Groups';
 import Grammar from "./Components/Grammar/Grammar";
-import Texts from "./Components/Texts/TextGrid/TextsGrid";
-import GroupPage from "./Components/GroupPage/GroupPage";
-import English from "./Components/Methods/English/English";
-import Russian from "./Components/Methods/Russian/Russian";
-import Spelling from "./Components/Methods/Spelling/Spelling";
-import Auding from "./Components/Methods/Auding/Auding";
+import Texts from "./Components/Texts/TextsGrid";
+import GroupPage from "./Components/Groups/GroupPage";
+import English from "./Components/Methods/English";
+import Russian from "./Components/Methods/Russian";
+import Spelling from "./Components/Methods/Spelling";
+import Auding from "./Components/Methods/Auding";
 import { useEffect } from 'react';
 import Footer from './Components/Footer/Footer';
 import AdminMenu from './AdminComponents/AdminMenu/AdminMenu';
@@ -17,7 +17,7 @@ import BreadCrumb from './Components/BreadCrumbp/BreadCrumb';
 import Auth from './Components/Auth/Auth';
 import { useAppDispatch, useAppSelector } from './app/hooks/hooks';
 import { getUserId, loginByRefreshThunk } from './app/clientAPI/userAPI';
-import TextPage from "./Components/Texts/TextPage/TextPage";
+import TextPage from "./Components/Texts/TextPage";
 import { getVocabularyThunk } from "./app/clientAPI/vocabularyAPI";
 
 function App() {

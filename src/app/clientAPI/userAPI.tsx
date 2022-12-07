@@ -4,7 +4,7 @@ import { removeUserFromLocalStorage, setUserToLocalStorage } from '../fns/localS
 import { User } from '../types/types'
 import { RootState } from '../store'
 
-const user: User = { id: 0, user_login: null, user_name: null, email: null, token: null, refresh_token: null, jwtExpire: null }
+const user: User = { id: null, user_login: null, user_name: null, email: null, token: null, refresh_token: null, jwtExpire: null }
 
 export const loginThunk = createAsyncThunk(
     'loginThunk',

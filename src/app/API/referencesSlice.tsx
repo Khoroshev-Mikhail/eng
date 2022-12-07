@@ -13,12 +13,18 @@ export const getReferences = createAsyncThunk<References, References_query>(
         return data
     }
 )
+const initialState: References = {
+    group: null,
+    text: null,
+    video: null,
+    audio: null,
+}
 export const referencesSlice = createSlice<References, {}>({
     name: 'referencesSlice',
-    initialState: null,
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getReferences.fulfilled, (_, action) => action.payload)
-        builder.addCase(getReferences.rejected, (_, __) => null)
+        builder.addCase(getReferences.rejected, (_, __) => initialState)
     }
 })

@@ -15,14 +15,34 @@ export type Group = {
     id: number, 
     title: string,
     title_rus: string,
-    word_ids: number[],
-    content_references: Content_references
+    words: number[],
+    is_global?: boolean,
+    visible?: boolean
+};
+export type Audio = {
+    id: number, 
+    title: string,
+    title_rus?: string,
+    img: string,
+    src: string,
+    audio_description: string,
+    is_global?: boolean,
+    visible?: boolean,
+};
+export type Video = {
+    id: number, 
+    title: string,
+    title_rus?: string,
+    img: string,
+    src: string,
+    video_description: string,
+    is_global?: boolean,
+    visible?: boolean,
 };
 export type GroupTitle = {
     id: number, 
     title: string,
-    title_rus: string,
-    word_ids: number[]
+    title_rus: string
 };
 export type Text = {
     id: number, 
@@ -30,14 +50,8 @@ export type Text = {
     img: string,
     text_body: string,
     visible?: boolean,
-    content_references: Content_references
 };
-export type TextTitle = {
-    id: number, 
-    title: string,
-    img: string,
-    id_group: number,
-};
+
 export type User = {
     id: number | null,
     email?: string | null,
@@ -61,12 +75,23 @@ export type Progress = {
     total: number
 };
 export type References = {
-    group: Group | null,
-    text: TextTitle | null,
-    audio: any | null,
-    video: any | null,
-} | null;
-
+    group: Title | null,
+    text: Title | null,
+    audio: Audio | null,
+    video: Video | null,
+}
+export type Title = {
+    id: number,
+    title: string,
+    title_rus: string,
+    img: string,
+}
+export type ReferencesCard = {
+    group: Title | null,
+    text: Title | null,
+    audio: Title | null,
+    video: Title | null,
+}
 export type Vocabulary = {
     english: number[],
     russian: number[],

@@ -1,23 +1,10 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+сделай компоненту <References />
 
-# testing
-/coverage
+oneTextSlice получай data, references
 
-# production
-/build
+References рендери при помощи пропс из слайса
+ендпоинт для текста готов
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+аудио ендпоинты не проверены
+создать контроллер роутинг сервис для видео и проверить

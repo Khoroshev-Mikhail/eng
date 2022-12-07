@@ -13,8 +13,7 @@ const initialState: GroupState = {
         id: 0,
         title: '',
         title_rus: '',
-        word_ids: [],
-        content_references: null
+        words: []
     },
 }
 export const getGroupThunk = createAsyncThunk<GroupState, number>(

@@ -3,7 +3,7 @@ import { groupsAPI } from './API/groupsAPI';
 import { groupsSlice } from './clientAPI/allGroupsSliceAPI';
 import { referencesSlice } from './API/referencesSlice';
 import { textsAPI } from './API/textsAPI';
-import { oneTextSlice, textsSlice } from './API/textSliceAPI';
+import { oneTextSlice, textsSlice } from './clientAPI/textSliceAPI';
 import { userSlice } from './clientAPI/userAPI';
 import { vocabularyAPI } from './API/vocabularyAPI';
 import { wordsAPI } from './API/wordAPI';

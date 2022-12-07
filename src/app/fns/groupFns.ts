@@ -1,7 +1,6 @@
-import { Vocabulary } from "../types/types";
+import { Progress, Vocabulary } from "../types/types";
 
-export default function getGroupProgress(vocabulary: Vocabulary, word_ids: number[]){
-    console.log(vocabulary, word_ids)
+export default function getGroupProgress(vocabulary: Vocabulary, word_ids: number[] = []): Progress {
     if(! vocabulary || ! word_ids || ! Array.isArray(word_ids)){
         return {
             english: 0,
@@ -11,8 +10,8 @@ export default function getGroupProgress(vocabulary: Vocabulary, word_ids: numbe
             total: 0,
         }
     }
+    const count = word_ids.length === 0 ? 1 : word_ids.length;  
     const { english, russian, spelling, auding } = vocabulary
-    const count = word_ids.length
     const englishProgress = word_ids.filter(id => english.includes(id))
     const russianProgress = word_ids.filter(id => russian.includes(id))
     const spellingProgress = word_ids.filter(id => spelling.includes(id))

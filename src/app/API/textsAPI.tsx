@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Text, TextTitle } from '../types/types'
+import { Text, Title } from '../types/types'
 export const textsAPI = createApi({
     reducerPath: 'textsApi',
     baseQuery: fetchBaseQuery({
@@ -35,7 +35,7 @@ export const textsAPI = createApi({
                     { type: 'texts', id: 'LIST' },
                     ]
                 : [{ type: 'texts', id: 'LIST' }], 
-            transformResponse: (resp: TextTitle[]) => resp.sort((a: TextTitle, b: TextTitle) => a.id - b.id)
+            transformResponse: (resp: Title[]) => resp.sort((a: Title, b: Title) => a.id - b.id)
         }),
         setText: builder.mutation<void, {title: string, img: string, text_body: string}>({
             query: (body) => ({
