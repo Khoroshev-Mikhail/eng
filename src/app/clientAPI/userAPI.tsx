@@ -7,14 +7,14 @@ import { RootState } from '../store'
 const user: User = { id: null, user_login: null, user_name: null, email: null, token: null, refresh_token: null, jwtExpire: null }
 
 export const loginThunk = createAsyncThunk(
-    'loginThunk',
-    async function(obj: any) {
+    'Thunk: login',
+    async function(request: { login: string, password: string}) {
         const response = await fetch('http://localhost:3002/user/auth', {
             method: 'POST',            
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             }, 
-            body: JSON.stringify({password: obj.password, login: obj.login})
+            body: JSON.stringify(request)
         })
         const user = await response.json()
         if(response.ok){ //вынести в МД
@@ -25,7 +25,7 @@ export const loginThunk = createAsyncThunk(
     }
 )
 export const loginByRefreshThunk = createAsyncThunk(
-    'loginByRefreshThunk',
+    'Thunk: loginByRefresh',
     async function() {
         const response = await fetch('http://localhost:3002/user/authByRefreshToken', {
             method: 'POST',            
@@ -45,8 +45,25 @@ export const loginByRefreshThunk = createAsyncThunk(
         return { id, user_login, email, user_name, jwtExpire }
     }
 )
+export const registrationThunk = createAsyncThunk(
+    'Thunk: registration',
+    async function(request: { login: string, password: string }, thunkApi) {
+        const response = await fetch('http://localhost:3002/user/registration', {
+            method: 'POST',            
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }, 
+            body: JSON.stringify({password: request.password, login: request.login})
+        })
+        if(response.ok){
+            if(request.login && request.password){
+                thunkApi.dispatch(loginThunk(request))
+            }
+        }
+    }
+)
 export const exitThunk = createAsyncThunk(
-    'exitThunk',
+    'Thunk: exit',
     async function() {
         const response = await fetch(`http://localhost:3002/user/logout/${localStorage.getItem(ID)}`)//Обратиться с стейт напрямую, и взять оттуда id
         const data = await response.json()
@@ -71,3 +88,4 @@ export const userSlice = createSlice({
     }
 })
 export const getUserId = (state: RootState) => state.user.id
+export const getUser = (state: RootState) => state.user

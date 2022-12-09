@@ -50,14 +50,6 @@ export default function Auth(){
                         onChange={(e)=>setPassword(e.target.value)}
                     />
                 </div>
-                {/*
-                    <div className="flex items-center gap-2">
-                        <Checkbox id="remember" />
-                        <Label htmlFor="remember">
-                            Remember me
-                        </Label>
-                    </div>    
-                */}
                 <Button type="submit" onClick={formHandler}>Вход</Button>
                 <Button type="button" onClick={exit}>Exit</Button>
             </form>         

@@ -19,6 +19,8 @@ import { useAppDispatch, useAppSelector } from './app/hooks/hooks';
 import { getUserId, loginByRefreshThunk } from './app/clientAPI/userAPI';
 import TextPage from "./Components/Texts/TextPage";
 import { getVocabularyThunk } from "./app/clientAPI/vocabularyAPI";
+import UserPage from "./Components/UserPage/UserPage";
+import Registration from "./Components/Auth/Registration";
 
 function App() {
     const userId = useAppSelector(getUserId)
@@ -43,6 +45,8 @@ function App() {
                     {admin && <Route path="/adminGroups" element={<AdminGroups />} />}
                     
                     <Route path="/" element={<Groups />} />
+                    <Route path="/userpage" element={<UserPage />} />
+                    <Route path="/registration" element={<Registration />} />
                     <Route path="/authorization" element={<Auth />} />
                     <Route path="/grammar" element={<Grammar />} />
                     <Route path="/texts" element={<Texts />} />

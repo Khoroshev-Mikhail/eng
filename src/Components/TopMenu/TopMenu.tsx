@@ -1,14 +1,16 @@
 import { Navbar} from "flowbite-react";
 import {useLinkClickHandler, useLocation} from "react-router-dom";
+import { getUser, getUserId } from "../../app/clientAPI/userAPI";
 import { useAppSelector } from "../../app/hooks/hooks";
 
 export default function TopMenu(){
-  const user = useAppSelector(state => state.user)
-  const userId = false
+  const user = useAppSelector(getUser)
   const location = useLocation();
   const goMain = useLinkClickHandler("/");
   const goTexts = useLinkClickHandler("/texts");
   const goAuth = useLinkClickHandler("/authorization");
+  const goUserPage = useLinkClickHandler("/userpage");
+  const goRegistration = useLinkClickHandler("/registration");
     return (
       <div className="mb-4">
         <Navbar fluid={true} rounded={true}>
@@ -29,14 +31,28 @@ export default function TopMenu(){
                     Тексты
                   </Navbar.Link>
               </span>
-              <span onClick={goAuth}>
-                  <Navbar.Link href="/authorization" active={location.pathname === '/authorization'} color='dark'>
-                    {userId ? 'Выход' : 'Вход / Регистрация'}
+              {/* {!user.id &&  */
+                <>
+                <span onClick={goRegistration}>
+                    <Navbar.Link href="/registration" active={location.pathname === '/texts'} color='dark'>
+                      Регистрация
+                    </Navbar.Link>
+                </span>
+                <span onClick={goAuth}>
+                    <Navbar.Link href='/authorization' active={location.pathname === '/authorization'} color='dark'>
+                      Вход
+                    </Navbar.Link>
+                </span>
+                </>
+              }
+              {user.id &&
+              <span onClick={goUserPage}>
+                  <Navbar.Link href='/userpage' active={location.pathname === '/userpage'} color='dark'>
+                    Страница пользователя {user.user_login}
                   </Navbar.Link>
               </span>
-              <span>
-                  {user.id}
-              </span>
+              }
+              
             </Navbar.Collapse>
         </Navbar>
       </div>
