@@ -14,7 +14,7 @@ export default function GroupAllWords(){
     return (
         <div>
             <div className="my-4 grid grid-cols-8 gap-4">
-                <div className="col-span-4"></div>
+                <div className="col-span-4">Всего слов в группе: {words.length}</div>
                 <div className="col-span-4 text-center">Методы изучения слов</div>
             </div>
             <div className="my-4 grid grid-cols-8 gap-4">
@@ -29,7 +29,7 @@ export default function GroupAllWords(){
             </div>
             {words && words.map(el => {
                 return (
-                    <GroupAllWords_word {...el}/>
+                    <GroupAllWords_word {...el} />
                 )
             })}
         </div>

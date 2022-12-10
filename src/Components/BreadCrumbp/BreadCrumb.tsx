@@ -12,16 +12,16 @@ export default function(){
     const defaultRoutes = [
         { path: "/", breadcrumb: "Главная" },
         { path: "/texts", breadcrumb: "Тексты" },
-        { path: "/words", breadcrumb: "Слова" },
-        { path: "/words/:id_group/English", breadcrumb: "Английский - Русский" },
-        { path: "/words/:id_group/Russian", breadcrumb: "Русский - Английский" },
-        { path: "/words/:id_group/Spelling", breadcrumb: "По буквам" },
-        { path: "/words/:id_group/Auding", breadcrumb: "Аудирование" },
+        { path: "/groups", breadcrumb: "Слова" },
+        { path: "/groups/:id_group/English", breadcrumb: "Английский - Русский" },
+        { path: "/groups/:id_group/Russian", breadcrumb: "Русский - Английский" },
+        { path: "/groups/:id_group/Spelling", breadcrumb: "По буквам" },
+        { path: "/groups/:id_group/Auding", breadcrumb: "Аудирование" },
         { path: "/Authorization", breadcrumb: "Авторизация" },
       ];
     const {data: groups = [], isSuccess} = useGetGroupsQuery()
     //Добавь также с текстами
-    const routesFromGroup: RouteType[] = isSuccess ? groups.map(el => ({path: `/words/${el.id}`, breadcrumb: el.title_rus})) : []
+    const routesFromGroup: RouteType[] = isSuccess ? groups.map(el => ({path: `/groups/${el.id}`, breadcrumb: el.title_rus})) : []
     const routes = defaultRoutes.concat(routesFromGroup)
     const breadcrumbs = useBreadcrumbs(routes);
     return (

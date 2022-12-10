@@ -1,5 +1,5 @@
 import { Progress } from "flowbite-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getGroup, getGroupThunk, getWord_idsFromGroup } from "../../app/clientAPI/groupSliceAPI";
 import { getVocabulary } from "../../app/clientAPI/vocabularyAPI";
@@ -12,10 +12,13 @@ export default function GroupPage(){
     const dispatch = useAppDispatch()
     const vocabulary = useAppSelector(getVocabulary)
     const words_ids = useAppSelector(getWord_idsFromGroup)
-    const progress = getGroupProgress(vocabulary, words_ids)
+    const [progress, setProgress] = useState(getGroupProgress(vocabulary, words_ids))
     useEffect(()=>{
         dispatch(getGroupThunk( id_group || 0 ))
     }, [])
+    useEffect(()=>{
+        setProgress(getGroupProgress(vocabulary, words_ids)) //Или перерефактори чтобы брать через appSelector
+    }, [vocabulary])
     return (
         <>
         <h1 className="m-4">Добавить список всех слов в группу</h1>

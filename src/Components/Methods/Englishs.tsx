@@ -1,25 +1,26 @@
-import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getUserId } from '../../app/clientAPI/userAPI'
+import { useGetUnlernedQuery, useSetVocabularyMutation } from '../../app/API/vocabularyAPI'
 import { useAppSelector } from '../../app/hooks/hooks'
-import { Word, Learning} from '../../app/types/types'
+import { RootState } from '../../app/store'
+import { Word, Group} from '../../app/types/types'
+import Completed from '../StaticPages/Completed'
 export default function English(props: any){
     const { id_group } = useParams()
-    const id_user = useAppSelector(getUserId)
-    const query = `/${id_user}/unlerned/english/group/${id_group}`
+    const { id: userId } = useAppSelector((state: RootState) => state.user)
+    const method = 'english'
     const defaultImg = '51_ccc.jpeg'
-    const word: Word = {id: 0, eng: '', rus: '', audio: null, img: null}
-    const [ data, setData ] = useState<Learning>({trueVariant: word, falseVariant: [word, word, word]})
+    const { data, isSuccess, refetch } = useGetUnlernedQuery({userId, method, groupId: id_group})
+    const [ setVocabulary ] = useSetVocabularyMutation()
     const answer = (id: number) => {
         if(data.trueVariant.id === id){
-            // setTimeout(()=> setVocabulary({userId: userId ? userId : 0, method, word_id: id}), 1000)
+            setTimeout(()=> setVocabulary({userId: userId ? userId : 0, method, word_id: id}), 1000)
         } else{
-            // refetch()
+            refetch()
         }
     }
     return(
         <>  
-            {data !== null && data !== undefined &&
+            {isSuccess && data !== null && data !== undefined &&
             <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
                     <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + (data.trueVariant.img || defaultImg)} alt="" />
@@ -36,6 +37,7 @@ export default function English(props: any){
                 </div>
             </div>
             }
+            {!data && <Completed /> }
         </>
     )
 }

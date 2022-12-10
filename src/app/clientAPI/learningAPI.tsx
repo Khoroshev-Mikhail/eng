@@ -24,11 +24,17 @@ const errorState: Learning = {
     trueVariant: errorWord,
     falseVariant: [ initialWord, initialWord, initialWord ]
 }
-export const getLearningThunk = createAsyncThunk<Learning, { method: Method, id: number }, { state: RootState }>(
+export const getLearningThunk = createAsyncThunk<Learning, { method: Method, id: number | string }, { state: RootState }>(
     'Thunk: getLearning',
-    async function(payload: { method: Method, id: number }, thunkAPI) {
+    async function(payload: { method: Method, id: number | string }, thunkAPI) {
         const { user } = thunkAPI.getState() as { user: User}
-        const response = await fetch(`http://localhost:3002/${user.id}/unlerned/${payload.method}/group/${payload.id}`)
+        if(payload.id <= 0){
+            return errorState
+        }
+        if(! user.id){
+            console.error('Не правильный url.', user)
+        }
+        const response = await fetch(`http://localhost:3002/vocabulary/${user.id}/unlerned/${payload.method}/group/${payload.id}`)
         const data = await response.json()
         return data
     }
@@ -43,5 +49,5 @@ export const learningSlice = createSlice<Learning, {}>({
     }
 })
 
-export const trueVariant = (state: RootState) => state.learning.trueVariant;
-export const falseVariants = (state: RootState) => state.learning.falseVariant;
+export const getTrueVariant = (state: RootState) => state.learning.trueVariant;
+export const getFalseVariants = (state: RootState) => state.learning.falseVariant;
