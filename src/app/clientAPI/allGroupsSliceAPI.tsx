@@ -10,7 +10,6 @@ export const getAllGroupsThunk = createAsyncThunk<Title[]>(
 )
 
 const initialState: Title[] = []
-
 export const groupsSlice = createSlice<Title[], {}>({
     name: 'Slice: groups',
     initialState,

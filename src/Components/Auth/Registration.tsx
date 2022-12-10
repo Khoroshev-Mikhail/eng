@@ -12,6 +12,7 @@ export default function Registration(){
     const [birth, setBirth] = useState<string>('')
     const [error, setError] = useState<string>('err')
     async function formHandler(e: any){
+        //лушче сделать через санки потому что проще будет обработать ошибку или вообще поставь потом либу какуюнибудь
         e.preventDefault()
         fetch('http://localhost:3002/user/registration', {
             method: 'POST',            

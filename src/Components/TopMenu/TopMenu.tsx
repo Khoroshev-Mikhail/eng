@@ -22,7 +22,7 @@ export default function TopMenu(){
             <Navbar.Toggle />
             <Navbar.Collapse>
               <span onClick={goMain}>
-                  <Navbar.Link href="/words" active={location.pathname === '/'} color='dark'>
+                  <Navbar.Link href="/groups" active={location.pathname === '/'} color='dark'>
                     Слова
                   </Navbar.Link>
               </span>

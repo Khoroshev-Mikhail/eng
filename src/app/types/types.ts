@@ -8,8 +8,8 @@ export type Word = {
     id: number, 
     eng: string,
     rus: string,
-    img: string,
-    audio: string
+    img: string | null,
+    audio: string | null
 };
 export type Group = {
     id: number, 
@@ -97,9 +97,15 @@ export type Vocabulary = {
     russian: number[],
     spelling:  number[],
     auding: number[],
+    texts: number[],
+    audios: number[],
+    videos: number[]
+}
+export type Unlerned = {
+    trueVariant: ''
 }
 export type Learning = {
     trueVariant: Word,
-    falseVariants: Word[],
+    falseVariant: Word[],
 }
 export type Method = 'english' | 'russian' | 'spelling' | 'auding';

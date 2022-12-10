@@ -21,6 +21,7 @@ import TextPage from "./Components/Texts/TextPage";
 import { getVocabularyThunk } from "./app/clientAPI/vocabularyAPI";
 import UserPage from "./Components/UserPage/UserPage";
 import Registration from "./Components/Auth/Registration";
+import GroupAllWords from "./Components/Groups/GroupAllWords";
 
 function App() {
     const userId = useAppSelector(getUserId)
@@ -37,7 +38,7 @@ function App() {
     return (
         <div className='container mx-auto px-4 py-4 max-w-7xl'>
             <Router>
-                <AdminMenu />
+                {admin && <AdminMenu />}
                 <TopMenu />
                 <BreadCrumb />
                 <Routes>
@@ -51,12 +52,13 @@ function App() {
                     <Route path="/grammar" element={<Grammar />} />
                     <Route path="/texts" element={<Texts />} />
                     <Route path="/texts/:id_text" element={<TextPage />} />
-                    <Route path="/words" element={<Groups />} />
-                    <Route path="/words/:id_group" element={<GroupPage />} />
-                    <Route path={`/words/:id_group/english`} element={<English />} />
-                    <Route path={`/words/:id_group/russian`} element={<Russian  />} />
-                    <Route path={`/words/:id_group/spelling`} element={<Spelling />} />
-                    <Route path={`/words/:id_group/auding`} element={<Auding />} />
+                    <Route path="/groups" element={<Groups />} />
+                    <Route path="/groups/:id_group" element={<GroupPage />} />
+                    <Route path="/groups/:id_group/all" element={<GroupAllWords />} />
+                    <Route path={`/groups/:id_group/english`} element={<English />} />
+                    <Route path={`/groups/:id_group/russian`} element={<Russian  />} />
+                    <Route path={`/groups/:id_group/spelling`} element={<Spelling />} />
+                    <Route path={`/groups/:id_group/auding`} element={<Auding />} />
                     
                 </Routes>
             </Router>

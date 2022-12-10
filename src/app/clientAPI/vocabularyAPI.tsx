@@ -6,7 +6,10 @@ const initialState: Vocabulary = {
     english: [],
     russian: [],
     spelling: [],
-    auding: []
+    auding: [],
+    texts: [],
+    audios: [],
+    videos: [],
 }
 export const getVocabularyThunk = createAsyncThunk<Vocabulary, void, { state: RootState }>(
     'Thunk: getVocabulary',

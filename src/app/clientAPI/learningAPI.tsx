@@ -18,11 +18,11 @@ const errorWord: Word = {
 }
 const initialState: Learning = {
     trueVariant: initialWord,
-    falseVariants: [ initialWord, initialWord, initialWord ]
+    falseVariant: [ initialWord, initialWord, initialWord ]
 }
 const errorState: Learning = {
     trueVariant: errorWord,
-    falseVariants: [ initialWord, initialWord, initialWord ]
+    falseVariant: [ initialWord, initialWord, initialWord ]
 }
 export const getLearningThunk = createAsyncThunk<Learning, { method: Method, id: number }, { state: RootState }>(
     'Thunk: getLearning',
@@ -44,4 +44,4 @@ export const learningSlice = createSlice<Learning, {}>({
 })
 
 export const trueVariant = (state: RootState) => state.learning.trueVariant;
-export const falseVariants = (state: RootState) => state.learning.falseVariants;
+export const falseVariants = (state: RootState) => state.learning.falseVariant;
