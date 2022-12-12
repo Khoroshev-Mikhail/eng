@@ -1,6 +1,6 @@
 import { Navbar} from "flowbite-react";
 import {useLinkClickHandler, useLocation} from "react-router-dom";
-import { getUser, getUserId } from "../../app/clientAPI/userAPI";
+import { getUser, getUserId } from "../../app/clientAPI/userSliceAPI";
 import { useAppSelector } from "../../app/hooks/hooks";
 
 export default function TopMenu(){
@@ -34,7 +34,7 @@ export default function TopMenu(){
               {/* {!user.id &&  */
                 <>
                 <span onClick={goRegistration}>
-                    <Navbar.Link href="/registration" active={location.pathname === '/texts'} color='dark'>
+                    <Navbar.Link href="/registration" active={location.pathname === '/registration'} color='dark'>
                       Регистрация
                     </Navbar.Link>
                 </span>

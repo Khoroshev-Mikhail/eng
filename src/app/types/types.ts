@@ -1,3 +1,5 @@
+import { STATUS_PENDING } from "../variables/statusVariables";
+
 export type UserVocabular = {
     english: number[],
     russian: number[],
@@ -105,6 +107,7 @@ export type Unlerned = {
     trueVariant: ''
 }
 export type Learning = {
+    status: 'pending' | 'fulfilled' | 'rejected' | 'error' | 'completed',
     trueVariant: Word,
     falseVariant: Word[],
 }

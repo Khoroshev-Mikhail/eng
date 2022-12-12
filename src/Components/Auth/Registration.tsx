@@ -1,6 +1,6 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
-import { exitThunk, loginThunk } from "../../app/clientAPI/userAPI";
+import { exitThunk, loginThunk } from "../../app/clientAPI/userSliceAPI";
 import { useAppDispatch } from "../../app/hooks/hooks";
 
 export default function Registration(){

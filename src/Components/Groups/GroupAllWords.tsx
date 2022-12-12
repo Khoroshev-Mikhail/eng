@@ -27,9 +27,9 @@ export default function GroupAllWords(){
                     <div className="col-span-1 text-center">Аудирование</div>
                 </div>
             </div>
-            {words && words.map(el => {
+            {words && words.map((el, i) => {
                 return (
-                    <GroupAllWords_word {...el} />
+                    <GroupAllWords_word {...el} key={i}/>
                 )
             })}
         </div>

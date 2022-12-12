@@ -1,27 +1,32 @@
-import { Button, TextInput } from "flowbite-react"
+import { Button } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { useGetUnlernedSpellQuery, useSetVocabularyMutation } from "../../app/API/vocabularyAPI"
-import { useAppSelector } from "../../app/hooks/hooks"
-import { RootState } from "../../app/store"
-import { Group } from "../../app/types/types"
+import { getLearning, getLearningThunk, getTrueVariant } from "../../app/clientAPI/learningSliceAPI"
+import { getUser } from "../../app/clientAPI/userSliceAPI"
+import { setVocabularyAndGetUpdatedVocabularyThunk } from "../../app/clientAPI/vocabularySliceAPI"
+import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
+import Completed from "../StaticPages/Completed"
 
 export default function Spelling(props: any){
+    //Отрефактори проверки user.id && id_group
     const { id_group } = useParams()
-    const { id: userId } = useAppSelector((state: RootState) => state.user)
-    const {data, isSuccess} = useGetUnlernedSpellQuery({userId, groupId: id_group || 0}) //Костыль
+    const dispatch = useAppDispatch()
+    const user = useAppSelector(getUser)
+    const { trueVariant, status } = useAppSelector(getLearning)
     const defaultImg = '51_ccc.jpeg'
     const [answer, setAnswer] = useState<string>('')
     const [eng, setEng] = useState<string>('')
-    const [ setVocabulary ] = useSetVocabularyMutation()
     function clickEng(i: number){
         setEng(state => {
             const arr = state.split('')
             const currentLetter = arr.splice(i, 1)[0]
             setAnswer(state => {
-                if((state + currentLetter).toUpperCase() === data.trueVariant.toUpperCase()){
-                    setVocabulary({method: 'spelling', userId: userId ? userId : 0, word_id: data.id})
+                if((state + currentLetter).toUpperCase() === trueVariant.eng.toUpperCase()){
+                    dispatch(setVocabularyAndGetUpdatedVocabularyThunk({method: 'spelling', word_id: trueVariant.id}))
                     setAnswer('')
+                    if(user.id && id_group){
+                        dispatch(getLearningThunk({method: 'russian', id: id_group }))
+                    }
                 }
                 return state + currentLetter
             }) //решить с ассинхронностью
@@ -37,19 +42,22 @@ export default function Spelling(props: any){
         })
     }
     useEffect(()=>{
-        if(isSuccess){
-            setEng(data.eng)
+        if(user.id && id_group){
+            dispatch(getLearningThunk({method: 'russian', id: id_group }))
         }
-    }, [isSuccess, data])
+    }, [id_group, user.id])
+    useEffect(()=>{
+        setEng( trueVariant.eng.toUpperCase().split('').sort( () => Math.random() - 0.5 ).join('') )
+    }, [trueVariant])
     return (
         <>
-        {isSuccess &&
+        {status === 'fulfilled' &&
         <div className="w-full p-2 sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
-                    <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + (data.img || defaultImg)} alt="" />
+                    <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={'http://localhost:3002/img/' + (trueVariant.img || defaultImg)} alt="" />
             </a>
             <div className="p-5">
-                <h5 className="mb-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{data.rus}</h5>
+                <h5 className="mb-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{trueVariant.rus}</h5>
                 <div className="flex flex-wrap gap-1 justify-center mb-10 p-2 rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                     {answer.split('').map((el: string, i: number) => {
                         return (
@@ -75,7 +83,13 @@ export default function Spelling(props: any){
             </div>
         </div>
         }
-        </>
+        { status === 'completed' && 
+        <Completed />
+        }
         
+        { (status === 'error' || status === 'rejected') && 
+            <div>Ошибка</div>
+        }
+        </>
     )
 }

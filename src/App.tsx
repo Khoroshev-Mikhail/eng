@@ -16,25 +16,25 @@ import AdminGroups from './AdminComponents/AdminGroups/AdminGroups';
 import BreadCrumb from './Components/BreadCrumbp/BreadCrumb';
 import Auth from './Components/Auth/Auth';
 import { useAppDispatch, useAppSelector } from './app/hooks/hooks';
-import { getUserId, loginByRefreshThunk } from './app/clientAPI/userAPI';
+import { getUserId, loginByRefreshThunk } from './app/clientAPI/userSliceAPI';
 import TextPage from "./Components/Texts/TextPage";
-import { getVocabularyThunk } from "./app/clientAPI/vocabularyAPI";
+import { getVocabularyThunk } from "./app/clientAPI/vocabularySliceAPI";
 import UserPage from "./Components/UserPage/UserPage";
 import Registration from "./Components/Auth/Registration";
 import GroupAllWords from "./Components/Groups/GroupAllWords";
 
 function App() {
+    const dispatch = useAppDispatch()
     const userId = useAppSelector(getUserId)
     useEffect(()=>{
         dispatch(loginByRefreshThunk())
     }, [])
     useEffect(()=>{
-        dispatch(getVocabularyThunk())
+        if(userId){
+            dispatch(getVocabularyThunk())
+        }
     }, [userId])
-    
-    const dispatch = useAppDispatch()
     const admin = userId === 1
-    
     return (
         <div className='container mx-auto px-4 py-4 max-w-7xl'>
             <Router>

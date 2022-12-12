@@ -1,6 +1,6 @@
 import { Progress } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { getVocabulary } from "../../app/clientAPI/vocabularyAPI";
+import { getVocabulary } from "../../app/clientAPI/vocabularySliceAPI";
 import getGroupProgress from "../../app/fns/groupFns";
 import { useAppSelector } from "../../app/hooks/hooks";
 

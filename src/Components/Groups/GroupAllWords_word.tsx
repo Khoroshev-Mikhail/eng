@@ -1,6 +1,6 @@
 import { Checkbox } from "flowbite-react"
 import { useEffect, useState } from "react"
-import { getVocabulary } from "../../app/clientAPI/vocabularyAPI"
+import { deleteFromVocabularyAndGetUpdatedVocabularyThunk, getVocabulary, setVocabularyAndGetUpdatedVocabularyThunk } from "../../app/clientAPI/vocabularySliceAPI"
 import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
 import { Word } from "../../app/types/types"
 
@@ -17,18 +17,22 @@ export default function GroupAllWords_word(props: Word){
         setSpelling(vocabulary.spelling.includes(props.id))
         setAuding(vocabulary.auding.includes(props.id))
     }, [vocabulary])
-    function checkboxHandler(id: number, method: string){
-        // dispatch() //и внутри санка которая сетает вокабуляр из методов изучения
+    function checkboxHandler(e: any, method: string, word_id: number){
+        if(e.target.checked){
+            dispatch(setVocabularyAndGetUpdatedVocabularyThunk({ method, word_id }))
+        } else{
+            dispatch(deleteFromVocabularyAndGetUpdatedVocabularyThunk({ method, word_id }))
+        }
     }
     return (
         <div className="my-4 grid grid-cols-8 gap-4">
             <div className="col-span-2">{props.eng}</div>
             <div className="col-span-2">{props.rus}</div>
             <div className="col-span-4 grid grid-cols-4 gap-4">
-                <div className="col-span-1 text-center"><Checkbox checked={english} onChange={()=>checkboxHandler(props.id, 'english')} /></div>
-                <div className="col-span-1 text-center"><Checkbox checked={russian} onChange={()=>checkboxHandler(props.id, 'russian')} /></div>
-                <div className="col-span-1 text-center"><Checkbox checked={spelling} onChange={()=>checkboxHandler(props.id, 'spelling')} /></div>
-                <div className="col-span-1 text-center"><Checkbox checked={auiding} onChange={()=>checkboxHandler(props.id, 'auding')} /></div>
+                <div className="col-span-1 text-center"><Checkbox checked={english} onChange={(e)=>checkboxHandler(e, 'english', props.id) } /></div>
+                <div className="col-span-1 text-center"><Checkbox checked={russian} onChange={(e)=>checkboxHandler(e, 'russian', props.id)} /></div>
+                <div className="col-span-1 text-center"><Checkbox checked={spelling} onChange={(e)=>checkboxHandler(e, 'spelling', props.id)} /></div>
+                <div className="col-span-1 text-center"><Checkbox checked={auiding} onChange={(e)=>checkboxHandler(e, 'auding', props.id)} /></div>
             </div>
         </div>
     )

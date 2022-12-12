@@ -13,11 +13,12 @@ export default function(){
         { path: "/", breadcrumb: "Главная" },
         { path: "/texts", breadcrumb: "Тексты" },
         { path: "/groups", breadcrumb: "Слова" },
+        { path: "/authorization", breadcrumb: "Авторизация" },
+        { path: "/registration", breadcrumb: "Регистрация" },
         { path: "/groups/:id_group/English", breadcrumb: "Английский - Русский" },
         { path: "/groups/:id_group/Russian", breadcrumb: "Русский - Английский" },
         { path: "/groups/:id_group/Spelling", breadcrumb: "По буквам" },
         { path: "/groups/:id_group/Auding", breadcrumb: "Аудирование" },
-        { path: "/Authorization", breadcrumb: "Авторизация" },
       ];
     const {data: groups = [], isSuccess} = useGetGroupsQuery()
     //Добавь также с текстами

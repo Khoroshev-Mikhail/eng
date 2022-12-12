@@ -31,7 +31,6 @@ export function References(props : { id_group?: number | string, id_text?: numbe
                 setReferences({ group: null, text: null, audio: null, video: null })
             })
         }
-        
     }, [ props ])
     return (
         <>

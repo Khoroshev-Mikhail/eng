@@ -4,7 +4,7 @@ import { removeUserFromLocalStorage, setUserToLocalStorage } from '../fns/localS
 import { User } from '../types/types'
 import { RootState } from '../store'
 
-const user: User = { id: null, user_login: null, user_name: null, email: null, token: null, refresh_token: null, jwtExpire: null }
+const initialState: User = { id: null, user_login: null, user_name: null, email: null, token: null, refresh_token: null, jwtExpire: null }
 
 export const loginThunk = createAsyncThunk(
     'Thunk: login',
@@ -20,8 +20,8 @@ export const loginThunk = createAsyncThunk(
         if(response.ok){ //вынести в МД
             setUserToLocalStorage(user)
         }
-        const { id, user_login, email, user_name, jwtExpire } = user
-        return { id, user_login, email, user_name, jwtExpire }
+        const { id, user_login, email, user_name, token } = user
+        return { id, user_login, email, user_name, token }
     }
 )
 export const loginByRefreshThunk = createAsyncThunk(
@@ -41,8 +41,8 @@ export const loginByRefreshThunk = createAsyncThunk(
             setUserToLocalStorage(user)
         }
         //Наверно здесь if как-то криво
-        const { id, user_login, email, user_name, jwtExpire } = user
-        return { id, user_login, email, user_name, jwtExpire }
+        const { id, user_login, email, user_name, token } = user
+        return { id, user_login, email, user_name, token }
     }
 )
 export const registrationThunk = createAsyncThunk(
@@ -75,17 +75,18 @@ export const exitThunk = createAsyncThunk(
 )
 export const userSlice = createSlice({
     name: 'userSlice',
-    initialState: user,
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(loginThunk.fulfilled, (_, action) => action.payload)
         builder.addCase(loginByRefreshThunk.fulfilled, (_, action) => action.payload) //Нужен ли здесь addCase с rejeted
         builder.addCase(loginThunk.rejected, (_, __) => {
             removeUserFromLocalStorage()
-            return user //попробуй this.initialState или чтото вроде того
+            return initialState 
           })
-        builder.addCase(exitThunk.fulfilled, (_, action) => user)//попробуй this.initialState
+        builder.addCase(exitThunk.fulfilled, (_, __) => initialState)
     }
 })
 export const getUserId = (state: RootState) => state.user.id
 export const getUser = (state: RootState) => state.user
+export const isAdmin = (state: RootState) => state.user.id === 1

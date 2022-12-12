@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { Progress, Word } from '../types/types'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
-import { exitThunk } from '../clientAPI/userAPI';
+import { exitThunk } from '../clientAPI/userSliceAPI';
 import { JWT_EXPIRE, REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables';
 
 const baseQuery = fetchBaseQuery({ 
