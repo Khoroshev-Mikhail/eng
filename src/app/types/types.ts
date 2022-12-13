@@ -61,7 +61,6 @@ export type User = {
     user_name?: string | null,
     token?: string | null,
     refresh_token?: string | null,
-    jwtExpire?: string | Date | null,
 };
 export type Content_references = {
     id_text: number | null,

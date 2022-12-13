@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { getReferences } from "../../app/API/referencesSlice"
+import { getReferences } from "../../app/clientAPI/referencesSliceAPI"
 import { getOneTextThunk } from "../../app/clientAPI/textSliceAPI"
 import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
 import { RootState } from "../../app/store"

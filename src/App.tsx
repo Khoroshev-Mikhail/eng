@@ -16,18 +16,19 @@ import AdminGroups from './AdminComponents/AdminGroups/AdminGroups';
 import BreadCrumb from './Components/BreadCrumbp/BreadCrumb';
 import Auth from './Components/Auth/Auth';
 import { useAppDispatch, useAppSelector } from './app/hooks/hooks';
-import { getUserId, loginByRefreshThunk } from './app/clientAPI/userSliceAPI';
+import { getUserId, refreshTokensThunk } from './app/clientAPI/userSliceAPI';
 import TextPage from "./Components/Texts/TextPage";
 import { getVocabularyThunk } from "./app/clientAPI/vocabularySliceAPI";
 import UserPage from "./Components/UserPage/UserPage";
 import Registration from "./Components/Auth/Registration";
 import GroupAllWords from "./Components/Groups/GroupAllWords";
+import AdminOneGroup from "./AdminComponents/AdminGroups/AdminOneGroup";
 
 function App() {
     const dispatch = useAppDispatch()
     const userId = useAppSelector(getUserId)
     useEffect(()=>{
-        dispatch(loginByRefreshThunk())
+        dispatch(refreshTokensThunk())
     }, [])
     useEffect(()=>{
         if(userId){
@@ -42,8 +43,11 @@ function App() {
                 <TopMenu />
                 <BreadCrumb />
                 <Routes>
-                    {admin && <Route path="/adminWords" element={<AdminWords />} />}
-                    {admin && <Route path="/adminGroups" element={<AdminGroups />} />}
+                    {admin && <>
+                        <Route path="/admin/words" element={ <AdminWords /> } />
+                        <Route path="/admin/groups" element={ <AdminGroups /> } />
+                        <Route path="/admin/groups/:id" element={ <AdminOneGroup /> } />
+                    </> }
                     
                     <Route path="/" element={<Groups />} />
                     <Route path="/userpage" element={<UserPage />} />

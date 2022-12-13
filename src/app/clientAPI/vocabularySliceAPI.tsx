@@ -6,9 +6,9 @@ import { REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables'
 import axios from 'axios'
 import { setUserToLocalStorage } from '../fns/localStorageFns'
 
-const instance = axios.create({})
+const instance = axios.create({baseURL: `${SERVER_URL}/vocabulary`})
 instance.interceptors.response.use(null, async (error) => {
-    const response = await fetch('http://localhost:3002/user/authByRefreshToken', {
+    const response = await fetch('http://localhost:3002/user/auth/refresh', {
             method: 'POST',            
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -21,7 +21,7 @@ instance.interceptors.response.use(null, async (error) => {
     if(response.ok){
         setUserToLocalStorage(user)
     }
-    error.config.headers['Authorization'] = `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`
+    error.config.headers['Authorization'] = `Bearer ${localStorage.getItem(TOKEN) || 'unknown' }`
     return axios.request(error.config)
 })
 const initialState: Vocabulary = {
@@ -41,7 +41,7 @@ export const getVocabularyThunk = createAsyncThunk<Vocabulary, void, { state: Ro
         if(user.id === null){
             return initialState
         }
-        const { data } = await instance(`${SERVER_URL}/vocabulary/${user.id}`)
+        const { data } = await instance(`/${user.id}`)
         return data
     }
 )
@@ -59,10 +59,10 @@ export const setVocabularyAndGetUpdatedVocabularyThunk = createAsyncThunk<Vocabu
             return vocabulary //пересмотри это
         }
         const { data, status } = await instance({
-            url: `${SERVER_URL}/vocabulary/${user.id}/${payload.method}`,
+            url: `/${user.id}/${payload.method}`,
             method: 'put',
             data: { ...payload },
-            headers: {'Authorization': `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`}
+            headers: {'Authorization': `Bearer ${localStorage.getItem(TOKEN) || 'unknown' }`}
         })
         return data
     }
@@ -81,10 +81,10 @@ export const deleteFromVocabularyAndGetUpdatedVocabularyThunk = createAsyncThunk
             return vocabulary //пересмотри это
         }
         const { data } = await instance({
-            url: `${SERVER_URL}/vocabulary/${user.id}/${payload.method}`,
+            url: `/${user.id}/${payload.method}`,
             method: 'delete',
             data: { ...payload },
-            headers: {'Authorization': `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`}
+            headers: {'Authorization': `Bearer ${localStorage.getItem(TOKEN) || 'unknown' }`}
         })
         return data
     }

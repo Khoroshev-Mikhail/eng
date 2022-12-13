@@ -5,13 +5,12 @@ import { exitThunk } from '../clientAPI/userSliceAPI';
 import { JWT_EXPIRE, REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables';
 
 const baseQuery = fetchBaseQuery({ 
-    //const token = (getState() as RootState).userToken;
     baseUrl: 'http://localhost:3002/vocabulary',
     prepareHeaders: (headers: Headers) => {
       headers.set('Authorization', `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`)
       return headers
     }
-   })
+})
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions)
     if(result.error?.originalStatus === 401 || result.error?.status === 401){

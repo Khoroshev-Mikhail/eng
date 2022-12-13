@@ -31,7 +31,7 @@ export default function TopMenu(){
                     Тексты
                   </Navbar.Link>
               </span>
-              {/* {!user.id &&  */
+              {! user.id &&
                 <>
                 <span onClick={goRegistration}>
                     <Navbar.Link href="/registration" active={location.pathname === '/registration'} color='dark'>

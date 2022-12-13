@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { ID, REFRESH_TOKEN } from '../variables/localStorageVariables'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { REFRESH_TOKEN } from '../variables/localStorageVariables'
 import { removeUserFromLocalStorage, setUserToLocalStorage } from '../fns/localStorageFns'
 import { User } from '../types/types'
 import { RootState } from '../store'
 
-const initialState: User = { id: null, user_login: null, user_name: null, email: null, token: null, refresh_token: null, jwtExpire: null }
+const initialState: User = { id: null, user_login: null, user_name: null, email: null }
 
 export const loginThunk = createAsyncThunk(
     'Thunk: login',
@@ -20,14 +20,13 @@ export const loginThunk = createAsyncThunk(
         if(response.ok){ //вынести в МД
             setUserToLocalStorage(user)
         }
-        const { id, user_login, email, user_name, token } = user
-        return { id, user_login, email, user_name, token }
+        return user
     }
 )
-export const loginByRefreshThunk = createAsyncThunk(
-    'Thunk: loginByRefresh',
+export const refreshTokensThunk = createAsyncThunk(
+    'Thunk: refreshTokens',
     async function() {
-        const response = await fetch('http://localhost:3002/user/authByRefreshToken', {
+        const response = await fetch('http://localhost:3002/user/auth/refresh', {
             method: 'POST',            
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -40,9 +39,7 @@ export const loginByRefreshThunk = createAsyncThunk(
         if(response.ok){
             setUserToLocalStorage(user)
         }
-        //Наверно здесь if как-то криво
-        const { id, user_login, email, user_name, token } = user
-        return { id, user_login, email, user_name, token }
+        return user
     }
 )
 export const registrationThunk = createAsyncThunk(
@@ -64,8 +61,14 @@ export const registrationThunk = createAsyncThunk(
 )
 export const exitThunk = createAsyncThunk(
     'Thunk: exit',
-    async function() {
-        const response = await fetch(`http://localhost:3002/user/logout/${localStorage.getItem(ID)}`)//Обратиться с стейт напрямую, и взять оттуда id
+    async function(_, thunkAPI) {
+        const { user } = thunkAPI.getState() as { user: User }
+        if(! user.id){
+            console.error('Вы не авторизированны.')
+            removeUserFromLocalStorage()
+            return initialState
+        }
+        const response = await fetch(`http://localhost:3002/user/logout/${user.id}`)
         const data = await response.json()
         if(response.ok){
             removeUserFromLocalStorage()
@@ -78,15 +81,25 @@ export const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(loginThunk.fulfilled, (_, action) => action.payload)
-        builder.addCase(loginByRefreshThunk.fulfilled, (_, action) => action.payload) //Нужен ли здесь addCase с rejeted
+        builder.addCase(loginThunk.fulfilled, (_, action: PayloadAction<User>) => action.payload)
         builder.addCase(loginThunk.rejected, (_, __) => {
+            removeUserFromLocalStorage() //вынеси это все в мидлвейры. и функцию которая сетает это все тоже по хорошему надо туда. мд запиши в этом файле
+            return initialState 
+        })
+        builder.addCase(refreshTokensThunk.fulfilled, (_, action: PayloadAction<User>) => action.payload)
+        builder.addCase(refreshTokensThunk.rejected, (_, __) => {
             removeUserFromLocalStorage()
             return initialState 
-          })
-        builder.addCase(exitThunk.fulfilled, (_, __) => initialState)
+        })
+        builder.addCase(exitThunk.fulfilled, (_, __) => {
+            removeUserFromLocalStorage()
+            return initialState 
+        })
+        builder.addCase(exitThunk.rejected, (_, __) => {
+            removeUserFromLocalStorage()
+            return initialState 
+        })
     }
 })
 export const getUserId = (state: RootState) => state.user.id
 export const getUser = (state: RootState) => state.user
-export const isAdmin = (state: RootState) => state.user.id === 1

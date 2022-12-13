@@ -5,7 +5,8 @@ export const getAllGroupsThunk = createAsyncThunk<Title[]>(
     'Thunk: getAllGroups',
     async function() {
         const response = await fetch(`http://localhost:3002/groups/titles`) //Потом здесб добавить пагинацию
-        return await response.json()
+        const data = await response.json()
+        return data.sort((a: Title, b: Title) => a.id - b.id)
     }
 )
 

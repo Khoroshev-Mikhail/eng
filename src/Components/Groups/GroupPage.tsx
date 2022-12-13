@@ -2,6 +2,7 @@ import { Progress } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getGroup, getGroupThunk, getWord_idsFromGroup } from "../../app/clientAPI/groupSliceAPI";
+import { getUserId } from "../../app/clientAPI/userSliceAPI";
 import { getVocabulary } from "../../app/clientAPI/vocabularySliceAPI";
 import getGroupProgress from "../../app/fns/groupFns";
 import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks";
@@ -10,6 +11,7 @@ import { References } from "../References/References";
 export default function GroupPage(){
     const { id_group } = useParams()
     const dispatch = useAppDispatch()
+    const isAdmin = useAppSelector(getUserId) === 1
     const vocabulary = useAppSelector(getVocabulary)
     const group = useAppSelector(getGroup)
     const words_ids = useAppSelector(getWord_idsFromGroup)
@@ -29,7 +31,13 @@ export default function GroupPage(){
                 <h6 className="mb-2 text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">Все слова из этой группы слов</h6>
             </Link>
         </div>
-
+        {isAdmin &&
+            <div className='grid grid-cols-1 gap-4 my-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5'>
+                <Link to={`/admin/groups/${id_group}`} className="bg-sky-100 block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <h6 className="mb-2 text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">Редактировать группу в админке</h6>
+            </Link>
+            </div>
+        }
         <h1 className="m-4">Выберите способ изучения слов:</h1>
         {
         progress &&
