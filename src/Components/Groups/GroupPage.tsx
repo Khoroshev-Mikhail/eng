@@ -25,12 +25,6 @@ export default function GroupPage(){
     }, [vocabulary, group])
     return (
         <>
-        <h1 className="m-4">(Лампочка)Совет: не переходите к следущему способу пока не завершили предыдущий.</h1>
-        <div className='grid grid-cols-1 gap-4 my-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5'>
-            <Link to={`/groups/${id_group}/all`} className="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                <h6 className="mb-2 text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">Все слова из этой группы слов</h6>
-            </Link>
-        </div>
         {isAdmin &&
             <div className='grid grid-cols-1 gap-4 my-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5'>
                 <Link to={`/admin/groups/${id_group}`} className="bg-sky-100 block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
@@ -38,6 +32,13 @@ export default function GroupPage(){
             </Link>
             </div>
         }
+        <h1 className="m-4">(Лампочка)Совет: не переходите к следущему способу пока не завершили предыдущий.</h1>
+        <div className='grid grid-cols-1 gap-4 my-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5'>
+            <Link to={`/groups/${id_group}/all`} className="block p-6 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <h6 className="mb-2 text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">Все слова из этой группы слов</h6>
+            </Link>
+        </div>
+
         <h1 className="m-4">Выберите способ изучения слов:</h1>
         {
         progress &&

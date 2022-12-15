@@ -1,33 +1,33 @@
-import { Button, FileInput, Label, Table, TextInput } from "flowbite-react"
-import { useEffect, useState } from "react"
-import { Checkbox } from "semantic-ui-react"
-import { useAddWordToGroupMutation, useGetGroupsQuery } from "../../app/API/groupsAPI"
-import { useGetAllWordsQuery, useSetWordMutation } from "../../app/API/wordAPI"
+import { Button, Checkbox, FileInput, Label, TextInput } from "flowbite-react"
+import { useState } from "react"
+import { useSetWordToGroupMutation, useGetGroupsQuery } from "../../app/API/groupsRTKAPI"
+import { useGetAllWordsQuery, useSearchWordsQuery, useSetWordMutation } from "../../app/API/wordRTKAPI"
+import { sortWordByEng, sortWordById, sortWordByRus } from "../../app/fns/comparators"
 import { Group, Word } from "../../app/types/types"
 import AdminWordsRow from "./AdminWordsRow"
 
-const sortById = (a: Word, b: Word) => a.id - b.id
-const sortByEng = (a: Word, b: Word) => a.eng.localeCompare(b.eng)
-const sortByRus = (a: Word, b: Word) => a.rus.localeCompare(b.rus)
-
+//Ошибка при сортировке по ид. попробуй и все увидишь
 export default function AdminWords(){
-    const {data, isSuccess} = useGetAllWordsQuery()
-    const {data: groups, isSuccess: isSuccessGroups} = useGetGroupsQuery()
-    const [setWord, status] = useSetWordMutation()
-    const [addWordToGroup] = useAddWordToGroupMutation()
     const [eng, setEng] = useState<string>('')
     const [rus, setRus] = useState<string>('')
     const [img, setImg] = useState<any>()
     const [audio, setAudio] = useState<any>()
     const [includesGroup, setIncludesGroup] = useState<number[]>([])
-    const [comparator, setComparator] = useState<{fn: any, increase: boolean}>({fn: sortById, increase: true})
+    const [comparator, setComparator] = useState<{fn: any, increase: boolean}>({fn: sortWordById, increase: true})
     const [filter, setFilter] = useState<string>('')
-    const sorted = isSuccess 
+
+    const {data: dataWords, isSuccess: isSuccessWords} = useGetAllWordsQuery()
+    // const {data: dataSearch, isSuccess: isSuccessSearch} = useSearchWordsQuery(filter)
+    const {data: dataGroups, isSuccess: isSuccessGroups} = useGetGroupsQuery()
+    const [ setWord, status ] = useSetWordMutation()
+    const [addWordToGroup] = useSetWordToGroupMutation()
+
+    const sorted = isSuccessWords 
         ? comparator.increase 
-            ? [...data].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())) 
-            : [...data].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())).reverse()
+            ? [...dataWords].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())) 
+            : [...dataWords].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())).reverse()
         : []
-    const nulls = isSuccess ? [...data].filter(el => el.rus === null || el.eng === null) : []
+    const nulls = isSuccessWords ? [...dataWords].filter(el => el.rus === null || el.eng === null) : []
     function toggleComparator(currentComparator: any){
         setComparator(({fn, increase}) => {
             return {
@@ -69,7 +69,7 @@ export default function AdminWords(){
                     <TextInput placeholder="Русский" value={rus} onChange={(e)=>setRus(e.target.value)}/>
                 </div>
                 <div className="col-span-1">
-                    <Button onClick={()=>{addNewWord()}}>Добавить</Button>
+                    <Button onClick={()=>{ addNewWord() }}>Добавить</Button>
                 </div>
                 <div className="col-span-9">  
                     <Label htmlFor="uploadImage">Изображение</Label>
@@ -82,10 +82,10 @@ export default function AdminWords(){
                 </div>
 
                 <div className="col-span-9"> 
-                    {isSuccessGroups && groups.map((group: Group, i: number) => {
+                    {isSuccessGroups && dataGroups.map((group: Group, i: number) => {
                         return (
                             <div key={i}>
-                                <Checkbox checked={includesGroup.includes(group.id)} className="pt-2 mr-2" id={`addGroup${i}`} value={group.id} onChange={()=>setIncludes(group.id)}/>
+                                <Checkbox checked={includesGroup.includes(group.id)} id={`addGroup${i}`} value={group.id} onChange={()=>setIncludes(group.id)}/>
                                 <Label htmlFor={`addGroup${i}`}>{group.title_rus}</Label>
                             </div>
                         )
@@ -105,24 +105,18 @@ export default function AdminWords(){
             </div>
             <div className="my-4 grid grid-cols-9 gap-2 rounded-lg border border-gray-200">
                 <div className="col-span-9 grid grid-cols-12 border-b py-2">
-                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortByEng)}>English</div>
-                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortByRus)}>Russian</div>
+                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortWordByEng)}>English</div>
+                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortWordByRus)}>Russian</div>
                     <div className="col-span-3 text-center">Медиа</div>
                     <div className="col-span-1 text-center">Delete</div>
                 </div>
-                    {isSuccess && isSuccessGroups &&
-                        sorted.map((word: Word, i: number) => {
-                            return (
-                                <AdminWordsRow key={i} {...word}/>
-                            )
-                        })
-                    }{isSuccess && isSuccessGroups &&
-                        nulls.map((word: Word, i: number) => {
-                                return (
-                                    <AdminWordsRow key={i} {...word}/>
-                                )
-                            })
-                        }
+                {isSuccessWords &&
+                    sorted.map((word: Word, i: number) => {
+                        return (
+                            <AdminWordsRow key={i} {...word}/>
+                        )
+                    })
+                }
             </div>
         </div>
     )

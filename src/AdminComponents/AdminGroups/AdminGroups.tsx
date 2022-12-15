@@ -1,7 +1,6 @@
 import { Button, TextInput } from "flowbite-react"
-import { useEffect, useState } from "react"
-import { getAllGroupsAdminThunk, getGroupsAdmin, setGroupAdminThunk } from "../../app/adminAPI/groupsAdminAPISlice"
-import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
+import { useState } from "react"
+import { useGetGroupsQuery, useSetGroupMutation } from "../../app/API/groupsRTKAPI"
 import { Group } from "../../app/types/types"
 import AdminGroupsRow from "./AdminGroupsRow"
 
@@ -10,18 +9,18 @@ const sortByEng = (a: Group, b: Group) => a.title.localeCompare(b.title)
 const sortByRus = (a: Group, b: Group) => a.title_rus.localeCompare(b.title_rus)
 
 export default function AdminGroups(){
-    const dispatch = useAppDispatch()
-    const data = useAppSelector(getGroupsAdmin)
+    const { data, isSuccess} = useGetGroupsQuery()
+    const [ setGroup ] = useSetGroupMutation()
     const [title, setTitle] = useState<string>('')
     const [title_rus, setTitleRus] = useState<string>('')
     const [comparator, setComparator] = useState<{ fn: any, increase: boolean }>({ fn: sortById, increase: true })
     const [filter, setFilter] = useState<string>('')
-    function setNewGroup(){
-        dispatch(setGroupAdminThunk({ title, title_rus }))
-    }
-    const sorted = comparator.increase 
-        ? [...data].sort(comparator.fn).filter(el => el.title.toLowerCase().includes(filter.toLowerCase()) || el.title_rus.toLowerCase().includes(filter.toLowerCase())) 
-        : [...data].sort(comparator.fn).filter(el => el.title.toLowerCase().includes(filter.toLowerCase()) || el.title_rus.toLowerCase().includes(filter.toLowerCase())).reverse()
+    const sorted = 
+        isSuccess && data ?
+            comparator.increase 
+            ? [...data].sort(comparator.fn).filter(el => el.title.toLowerCase().includes(filter.toLowerCase()) || el.title_rus.toLowerCase().includes(filter.toLowerCase())) 
+            : [...data].sort(comparator.fn).filter(el => el.title.toLowerCase().includes(filter.toLowerCase()) || el.title_rus.toLowerCase().includes(filter.toLowerCase())).reverse()
+        : []
     function toggleComparator(currentComparator: any){
         setComparator(({fn, increase}) => {
             return {
@@ -30,9 +29,6 @@ export default function AdminGroups(){
             };
         })
     }
-    useEffect(()=>{
-        dispatch(getAllGroupsAdminThunk())
-    }, [])
     return (
         <div> 
             <div className="my-4 grid grid-cols-9 gap-4">
@@ -43,7 +39,7 @@ export default function AdminGroups(){
                     <TextInput placeholder="Русский" value={title_rus} onChange={(e)=>setTitleRus(e.target.value)}/>
                 </div>
                 <div className="col-span-1">
-                    <Button onClick={ ()=>setNewGroup() }>Добавить</Button>
+                    <Button onClick={ () => setGroup({ title, title_rus }) }>Добавить</Button>
                 </div>
             </div>
             <div className="my-4">

@@ -1,6 +1,6 @@
 import { Button, Checkbox, Table, TextInput } from "flowbite-react"
 import { useEffect, useState } from "react"
-import { useDeleteWordMutation, usePutWordMutation } from "../../app/API/wordAPI"
+import { useDeleteWordMutation, usePutWordMutation } from "../../app/API/wordRTKAPI"
 import { Word } from "../../app/types/types"
 import AdminWordsRowGroups from "./AdminWordRowGroups"
 

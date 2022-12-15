@@ -1,37 +1,42 @@
 import { Checkbox } from "flowbite-react"
-import { useEffect, useState } from "react"
-import { deleteWordFromGroupAdminThunk, getAllWordsFromGroupAdmin, getGroupAdmin, putWordToGroupAdminThunk } from "../../app/adminAPI/groupsAdminAPISlice"
-import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
+import { useParams } from "react-router-dom"
+import { useDeleteWordFromGroupMutation, useSetWordToGroupMutation } from "../../app/API/groupsRTKAPI"
 import { Word } from "../../app/types/types"
 
-export default function AdminOneGroup_WordRow(props: Word){
-    const group = useAppSelector(getGroupAdmin)
-    const allWordsFromGroup = useAppSelector(getAllWordsFromGroupAdmin)
-    const dispatch = useAppDispatch()
-    const [isChecked, setIsChecked] = useState<boolean>(false)
-    function checkboxHandler(){
-        if(group.words.includes(props.id)){
-            dispatch(deleteWordFromGroupAdminThunk({ id: group.id, word_id: props.id }))
-        } else {
-            dispatch(putWordToGroupAdminThunk({ id: group.id, word_id: props.id }))
+export default function AdminOneGroup_WordRow(props: { word: Word, words_ids: number[], setDeletedWords: any }){
+    const { id } = useParams()
+    const [ deleteWordFromGroup ] = useDeleteWordFromGroupMutation()
+    const [ setWordToGroup ] = useSetWordToGroupMutation()
+    const isChecked = props.words_ids.includes(props.word.id)
+    function handlerCheck(){
+        if(id){
+            if(isChecked){
+                deleteWordFromGroup({ id, word_id: props.word.id })
+                props.setDeletedWords( (state: Word[]) => {
+                    state.push(props.word)
+                    return state
+                })
+            } else{
+                setWordToGroup({ id, word_id: props.word.id })
+                props.setDeletedWords( (state: Word[]) => {
+                    return state.filter(el => el.id !== props.word.id)
+                })
+            }
         }
     }
-    useEffect(()=>{
-        setIsChecked(group.words.includes(props.id))
-    }, [allWordsFromGroup])
     return (
         <>
-            <div className="col-span-1">
-                {props.id}
+            <div className="col-span-1 text-center border-b border-gray-200">
+                {props.word.id}
             </div>
-            <div className="col-span-3">
-                {props.eng}
+            <div className="col-span-3 border-b border-gray-200">
+                {props.word.eng}
             </div>
-            <div className="col-span-3">
-                {props.rus}
+            <div className="col-span-3 border-b border-gray-200">
+                {props.word.rus}
             </div>
-            <div className="col-span-2 text-center">
-                <Checkbox checked={isChecked} onChange={checkboxHandler}/>
+            <div className="col-span-2 text-center border-b border-gray-200">
+                <Checkbox checked={isChecked} onChange={handlerCheck} />
             </div>
         </>
     )

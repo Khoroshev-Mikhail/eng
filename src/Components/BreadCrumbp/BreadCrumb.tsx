@@ -2,7 +2,7 @@ import { Breadcrumb } from "flowbite-react";
 import { HomeIcon } from '@heroicons/react/24/solid'
 import useBreadcrumbs from "use-react-router-breadcrumbs";
 import {Link } from "react-router-dom";
-import { useGetGroupsQuery } from "../../app/API/groupsAPI";
+import { useGetGroupsQuery } from "../../app/API/groupsRTKAPI";
 
 type RouteType = {
     path: string,

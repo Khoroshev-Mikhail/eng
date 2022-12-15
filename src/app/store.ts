@@ -1,17 +1,18 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { groupsAPI } from './API/groupsAPI';
+import { groupsAPI } from './API/groupsRTKAPI';
 import { groupsSlice } from './clientAPI/allGroupsSliceAPI';
 import { referencesSlice } from './clientAPI/referencesSliceAPI';
-import { textsAPI } from './API/textsAPI';
+import { textsAPI } from './API/textsRTKAPI';
 import { oneTextSlice, textsSlice } from './clientAPI/textSliceAPI';
 import { userSlice } from './clientAPI/userSliceAPI';
-import { vocabularyAPI } from './API/vocabularyAPI';
-import { wordsAPI } from './API/wordAPI';
+import { vocabularyAPI } from './API/vocabularyRTKAPI';
+import { wordsAPI } from './API/wordRTKAPI';
 import { vocabularySlice } from './clientAPI/vocabularySliceAPI';
 import { learningSlice } from './clientAPI/learningSliceAPI';
 import { groupSlice } from './clientAPI/groupSliceAPI';
 import { groupAdminSlice, groupsAdminSlice, wordsFromGroupAdminSlice } from './adminAPI/groupsAdminAPISlice';
 import { wordsAdminSlice } from './adminAPI/wordsAdminAPISlice';
+import { wordsFromGroupAPI } from './API/wordsFromGroupRTKAPI';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     [groupsAPI.reducerPath]: groupsAPI.reducer,
     [vocabularyAPI.reducerPath]: vocabularyAPI.reducer,
     [textsAPI.reducerPath]: textsAPI.reducer,
+    [wordsFromGroupAPI.reducerPath]: wordsFromGroupAPI.reducer,
     user: userSlice.reducer,
     texts: textsSlice.reducer,
     oneText: oneTextSlice.reducer,
@@ -37,7 +39,8 @@ export const store = configureStore({
       wordsAPI.middleware, 
       groupsAPI.middleware, 
       vocabularyAPI.middleware, 
-      textsAPI.middleware
+      textsAPI.middleware,
+      wordsFromGroupAPI.middleware,
     )
 });
 export const { dispatch } = store

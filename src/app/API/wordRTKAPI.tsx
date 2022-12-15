@@ -24,6 +24,21 @@ export const wordsAPI = createApi({
                 : [{ type: 'words', id: 'LIST' }],  
                 transformResponse: (resp: Word[]) => resp.sort((a: Word, b: Word) => a.id - b.id)
         }),
+        searchWords: builder.query<Word[], string>({
+            query: (str) => ({
+                url: `/search`,
+                method: 'POST',
+                body: { str }
+            }),
+            providesTags: (result) =>
+                result
+                ? [
+                    ...result.map(({ id }: any) => ({ type: 'words' as const, id })),
+                    { type: 'words', id: 'LIST' },
+                    ]
+                : [{ type: 'words', id: 'LIST' }],  
+                transformResponse: (resp: Word[]) => resp.sort((a: Word, b: Word) => a.id - b.id)
+        }),
         getWordsByGroup: builder.query<Word[], number>({
             query: (group) =>  `/group/${group}`,
             providesTags: (result) =>
@@ -61,4 +76,4 @@ export const wordsAPI = createApi({
     })
 })
 
-export const { useGetAllWordsQuery, useSetWordMutation, useGetWordsByGroupQuery, usePutWordMutation, useDeleteWordMutation } = wordsAPI
+export const { useGetAllWordsQuery, useSearchWordsQuery, useSetWordMutation, useGetWordsByGroupQuery, usePutWordMutation, useDeleteWordMutation } = wordsAPI
