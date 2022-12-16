@@ -3,13 +3,12 @@ import { useParams } from "react-router-dom"
 import { Button, TextInput } from "flowbite-react"
 import AdminOneGroup_WordRow from "./AdminOneGroup_WordRow"
 import { Word } from "../../app/types/types"
-import { useGetOneGroupQuery, useGetWordsFromGroupQuery, usePutGroupMutation } from "../../app/API/groupsRTKAPI"
+import { useDeleteGroupMutation, useGetOneGroupQuery, useGetWordsFromGroupQuery, usePutGroupMutation } from "../../app/API/groupsRTKAPI"
 import { sortWordByEng, sortWordById, sortWordByRus } from "../../app/fns/comparators"
 import { useSearchWordsQuery } from "../../app/API/wordRTKAPI"
 
 export default function AdminOneGroup(){
-    const { id = 1 } = useParams()
-
+    const { id = 0 } = useParams()
     const [ title, setTitle ] = useState<string>('')
     const [ title_rus, setTitle_rus ] = useState<string>('')
     const [ search, setSearch ] = useState<string>('')
@@ -21,7 +20,7 @@ export default function AdminOneGroup(){
     const { data: dataWords, isSuccess: isSuccessWords} = useGetWordsFromGroupQuery(id) //Наверно надо качасть отфильтрованные слова сразу с бд
     const { data: dataSearch, isSuccess: isSuccessSearch } = useSearchWordsQuery( search )
     const [ setGroup ] = usePutGroupMutation()
-    
+    const [ deleteGroup ] = useDeleteGroupMutation()
     const sorted = isSuccessGroup && isSuccessWords 
         ? comparator.increase 
             ? [...dataWords].concat(deletedWords).sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())) 
@@ -50,11 +49,14 @@ export default function AdminOneGroup(){
             <div className="col-span-4">
                 <TextInput placeholder="English header" value={title} onChange={(e)=>setTitle(e.target.value)}/>
             </div>
-            <div className="col-span-4">
+            <div className="col-span-3">
                 <TextInput placeholder="Русский заголовок" value={title_rus} onChange={(e)=>setTitle_rus(e.target.value)}/>
             </div>
             <div className="col-span-1">
-                <Button onClick={ ()=>{ setGroup({ id: id || 1, title, title_rus }) } }>Сохранить</Button>
+                <Button onClick={ ()=>{ setGroup({ id, title, title_rus }) } }>Сохранить</Button>
+            </div>
+            <div className="col-span-1">
+                <Button color={'failure'} onClick={ ()=>{ deleteGroup(id) }}>Удалить</Button>
             </div>
         </div>
 

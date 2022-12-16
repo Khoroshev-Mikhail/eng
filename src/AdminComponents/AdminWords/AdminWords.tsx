@@ -45,12 +45,12 @@ export default function AdminWords(){
         formData.append('rus', rus);
         img && formData.append('img', img[0]);
         audio && formData.append('audio', audio[0]);
-        setWord(formData).unwrap().then(fulfilled => {
-            includesGroup.forEach((id: number) => addWordToGroup({id, word_id: fulfilled}) )
+        setWord(formData).unwrap().then(word => {
+            includesGroup.forEach((id: number) => addWordToGroup({id, word_id: word.id}) )
             setEng('')
             setRus('')
-            setImg(undefined)
-            setAudio(undefined)
+            setImg(null) //Нада очистить
+            setAudio(null)
             setIncludesGroup([])
         }).catch(rejected => console.log(rejected))
     }
@@ -63,7 +63,7 @@ export default function AdminWords(){
         <div> 
             <div className="p-2 my-4 grid grid-cols-9 gap-4 rounded-lg border border-gray-200">
                 <div className="col-span-4">
-                    <TextInput placeholder="English" value={eng} onChange={(e)=>setEng(e.target.value)}/>
+                    <TextInput placeholder="English" value={eng} onChange={(e)=>{setEng(e.target.value)}}/>
                 </div>
                 <div className="col-span-4">
                     <TextInput placeholder="Русский" value={rus} onChange={(e)=>setRus(e.target.value)}/>
@@ -73,12 +73,12 @@ export default function AdminWords(){
                 </div>
                 <div className="col-span-9">  
                     <Label htmlFor="uploadImage">Изображение</Label>
-                    <FileInput id="uploadImage" name="img" onChange={(e)=>{setImg(e.target.files && e.target.files)}}/>
+                    <FileInput id="uploadImage" required name="img" onChange={(e)=>{setImg(e.target.files && e.target.files)}}/>
                 </div>
 
                 <div className="col-span-9">  
                     <Label htmlFor="uploadImage">Аудио</Label>
-                    <FileInput id="uploadAudio" name="audio" onChange={(e)=>{setAudio(e.target.files && e.target.files)}}/>    
+                    <FileInput id="uploadAudio" required name="audio" onChange={(e)=>{setAudio(e.target.files && e.target.files)}}/>    
                 </div>
 
                 <div className="col-span-9"> 
@@ -105,9 +105,11 @@ export default function AdminWords(){
             </div>
             <div className="my-4 grid grid-cols-9 gap-2 rounded-lg border border-gray-200">
                 <div className="col-span-9 grid grid-cols-12 border-b py-2">
-                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortWordByEng)}>English</div>
-                    <div className="col-span-4 cursor-pointer text-center" onClick={()=>toggleComparator(sortWordByRus)}>Russian</div>
-                    <div className="col-span-3 text-center">Медиа</div>
+                    <div className="col-span-1 text-center">ID</div>
+                    <div className="col-span-2 cursor-pointer" onClick={()=>toggleComparator(sortWordByEng)}>English</div>
+                    <div className="col-span-2 cursor-pointer" onClick={()=>toggleComparator(sortWordByRus)}>Russian</div>
+                    <div className="col-span-1"></div>
+                    <div className="col-span-5 text-center">Медиа</div>
                     <div className="col-span-1 text-center">Delete</div>
                 </div>
                 {isSuccessWords &&

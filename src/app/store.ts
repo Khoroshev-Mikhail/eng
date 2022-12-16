@@ -10,8 +10,6 @@ import { wordsAPI } from './API/wordRTKAPI';
 import { vocabularySlice } from './clientAPI/vocabularySliceAPI';
 import { learningSlice } from './clientAPI/learningSliceAPI';
 import { groupSlice } from './clientAPI/groupSliceAPI';
-import { groupAdminSlice, groupsAdminSlice, wordsFromGroupAdminSlice } from './adminAPI/groupsAdminAPISlice';
-import { wordsAdminSlice } from './adminAPI/wordsAdminAPISlice';
 import { wordsFromGroupAPI } from './API/wordsFromGroupRTKAPI';
 
 export const store = configureStore({
@@ -30,10 +28,6 @@ export const store = configureStore({
     allGroups: groupsSlice.reducer,
     group: groupSlice.reducer,
     // adminNew
-    groupAdmin: groupAdminSlice.reducer,
-    groupsAdmin: groupsAdminSlice.reducer,
-    wordsFromGroupAdmin: wordsFromGroupAdminSlice.reducer,
-    allWords: wordsAdminSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
       wordsAPI.middleware, 

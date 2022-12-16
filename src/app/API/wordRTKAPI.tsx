@@ -49,7 +49,7 @@ export const wordsAPI = createApi({
                     ]
                 : [{ type: 'words', id: 'LIST' }],
         }),
-        setWord: builder.mutation<number, any>({ //Надо установить npm install --save @types/formdata
+        setWord: builder.mutation<Word, any>({ //Надо установить npm install --save @types/formdata
             query: (body) => ({
                 url: `/`,
                 method: 'POST',

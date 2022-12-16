@@ -12,12 +12,9 @@ export default function AdminWordsRow(props: Word){
     const [hidden, setHidden] = useState<boolean>(false)
     function changeEngslih(e: any){
         setEng(e.target.value)
-        putWord({id: props.id, eng: e.target.value, rus}) //как решается вот эта ассинхронность кроме костылей c useEffect?
-        //Добавить анимацию
     }
     function changeRussian(e: any){
         setRus(e.target.value)
-        putWord({id: props.id, eng, rus: e.target.value})
     }
     useEffect(()=>{
         setEng(props.eng)
@@ -25,16 +22,19 @@ export default function AdminWordsRow(props: Word){
     }, [props])
     return (
         <div className="col-span-9 grid grid-cols-12 gap-x-2 border-b border-gray-200 pb-2">
-            <div className="pl-2 col-span-1 cursor-pointer">
+            <div className="pl-2 col-span-1 cursor-pointer text-center">
                 {props.id}
             </div>
-            <div className="pl-2 col-span-3 cursor-pointer">
+            <div className="pl-2 col-span-2 cursor-pointer">
                 <TextInput placeholder="Word" value={eng} onChange={changeEngslih} />
             </div>
-            <div className="col-span-4 cursor-pointer">
+            <div className="col-span-2 cursor-pointer">
                 <TextInput placeholder="Слово" value={rus} onChange={changeRussian} />
             </div>
-            <div className="col-span-3 text-center">
+            <div className="col-span-1 cursor-pointer">
+                <Button color={'light'} onClick={()=>{putWord({ id: props.id, eng, rus })}}>Save</Button>
+            </div>
+            <div className="col-span-5 text-center">
                 <Button.Group outline={true}>
                     <Button color={'light'} onClick={()=>{}}>Image</Button>
                     <Button color={'light'} onClick={()=>{}}>Audio</Button>
@@ -42,7 +42,7 @@ export default function AdminWordsRow(props: Word){
                 </Button.Group>
             </div>
             <div className="pr-2 col-span-1 text-center">
-                <Button color={'light'} onClick={()=>deleteWord(props.id)}>Del</Button>
+                <Button color={'failure'} onClick={()=>deleteWord(props.id)}>Del</Button>
             </div>
 
             {hidden && <AdminWordsRowGroups word_id={props.id}/>}

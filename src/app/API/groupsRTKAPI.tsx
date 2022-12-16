@@ -65,7 +65,7 @@ export const groupsAPI = createApi({
             }),
             invalidatesTags: ['groups']
         }),
-        deleteGroup: builder.mutation<void, number>({
+        deleteGroup: builder.mutation<void, number | string>({
             query: (id) => ({
                 url: `/`,
                 method: 'DELETE',
@@ -90,7 +90,7 @@ export const groupsAPI = createApi({
             invalidatesTags: ['groups', 'wordsFromGroup']
         }),
         deleteWordFromGroup: builder.mutation<void, { id: number | string, word_id: number }>({
-            query: (body) => ({
+            query: (body: { id: number | string, word_id: number }) => ({
                 url: `/${body.id}/word_ids`,
                 method: 'DELETE',
                 body
