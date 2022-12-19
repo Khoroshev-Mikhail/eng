@@ -34,12 +34,11 @@ export default function AdminOneWord(){
             setRus(word.rus)
         }
     }, [isSuccess, word])
-    console.log(img)
     return (
         <>
             {isSuccess && <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <a href="#">
-                    <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={`http://localhost:3002/img/${word.img}`} alt="" />
+                    {word.img ? <img onClick={()=>alert('repeat audio')} className="rounded-t-lg" src={`http://localhost:3002/img/${word.img}`} alt="" /> : <h1 className="text-center mt-4">Изображение отсутствует</h1> }
                 </a>
                 <div className="p-2 pt-4 col-span-2 cursor-pointer">
                     <TextInput placeholder="Word" value={eng} onChange={(e)=>setEng(e.target.value)} />

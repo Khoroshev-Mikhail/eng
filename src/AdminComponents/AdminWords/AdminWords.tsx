@@ -103,12 +103,11 @@ export default function AdminWords(){
                 <h1>Список всех слов</h1>
             </div>
             <div className="my-4 grid grid-cols-9 gap-2 rounded-lg border border-gray-200">
-                <div className="col-span-9 grid grid-cols-12 border-b py-2">
+                <div className="col-span-9 grid grid-cols-9 border-b py-2">
                     <div className="col-span-1 text-center">ID</div>
-                    <div className="col-span-2 cursor-pointer" onClick={()=>toggleComparator(sortWordByEng)}>English</div>
-                    <div className="col-span-2 cursor-pointer" onClick={()=>toggleComparator(sortWordByRus)}>Russian</div>
-                    <div className="col-span-5 text-center">Медиа</div>
-                    <div className="col-span-1 text-center">Save</div>
+                    <div className="col-span-3 cursor-pointer" onClick={()=>toggleComparator(sortWordByEng)}>English</div>
+                    <div className="col-span-3 cursor-pointer" onClick={()=>toggleComparator(sortWordByRus)}>Russian</div>
+                    <div className="col-span-1 text-center">Группы</div>
                     <div className="col-span-1 text-center">Delete</div>
                 </div>
                 {isSuccessWords &&
