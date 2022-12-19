@@ -27,7 +27,6 @@ export default function AdminWords(){
             ? [...dataWords].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())) 
             : [...dataWords].sort(comparator.fn).filter(el => el.eng?.toLowerCase().includes(filter.toLowerCase()) || el.rus?.toLowerCase().includes(filter.toLowerCase())).reverse()
         : []
-    const nulls = isSuccessWords ? [...dataWords].filter(el => el.rus === null || el.eng === null) : []
     function toggleComparator(currentComparator: any){
         setComparator(({fn, increase}) => {
             return {
@@ -46,7 +45,7 @@ export default function AdminWords(){
         img && formData.append('img', img[0]);
         audio && formData.append('audio', audio[0]);
         setWord(formData).unwrap().then(word => {
-            includesGroup.forEach((id: number) => addWordToGroup({id, word_id: word.id}) )
+            includesGroup.forEach((id: number) => addWordToGroup({ id, word_id: word.id }) )
             setEng('')
             setRus('')
             setImg(null) //Нада очистить
@@ -108,8 +107,8 @@ export default function AdminWords(){
                     <div className="col-span-1 text-center">ID</div>
                     <div className="col-span-2 cursor-pointer" onClick={()=>toggleComparator(sortWordByEng)}>English</div>
                     <div className="col-span-2 cursor-pointer" onClick={()=>toggleComparator(sortWordByRus)}>Russian</div>
-                    <div className="col-span-1"></div>
                     <div className="col-span-5 text-center">Медиа</div>
+                    <div className="col-span-1 text-center">Save</div>
                     <div className="col-span-1 text-center">Delete</div>
                 </div>
                 {isSuccessWords &&

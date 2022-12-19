@@ -2,7 +2,7 @@ import { Checkbox, Label} from "flowbite-react"
 import { useSetWordToGroupMutation, useDeleteWordFromGroupMutation, useGetGroupsQuery } from "../../app/API/groupsRTKAPI"
 import { Group } from "../../app/types/types"
 
-export default function AdminWordsRowGroups(props: any){
+export default function AdminWordsRowGroups(props: {word_id: number}){
     const {data, isSuccess} = useGetGroupsQuery()
     const [addWordToGroup] = useSetWordToGroupMutation()
     const [deleteWordFromGroup] = useDeleteWordFromGroupMutation()

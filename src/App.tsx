@@ -23,6 +23,7 @@ import UserPage from "./Components/UserPage/UserPage";
 import Registration from "./Components/Auth/Registration";
 import GroupAllWords from "./Components/Groups/GroupAllWords";
 import AdminOneGroup from "./AdminComponents/AdminGroups/AdminOneGroup";
+import AdminOneWord from "./AdminComponents/AdminWords/AdminOneWord";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -45,6 +46,7 @@ function App() {
                 <Routes>
                     {admin && <>
                         <Route path="/admin/words" element={ <AdminWords /> } />
+                        <Route path="/admin/words/:id" element={ <AdminOneWord /> } />
                         <Route path="/admin/groups" element={ <AdminGroups /> } />
                         <Route path="/admin/groups/:id" element={ <AdminOneGroup /> } />
                     </> }

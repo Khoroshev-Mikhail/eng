@@ -24,6 +24,10 @@ export const wordsAPI = createApi({
                 : [{ type: 'words', id: 'LIST' }],  
                 transformResponse: (resp: Word[]) => resp.sort((a: Word, b: Word) => a.id - b.id)
         }),
+        getOneWord: builder.query<Word, number | string>({
+            query: (id: number | string) =>  `/${id}`,
+            providesTags: (result, error, id) =>[{ type: 'words', id}]
+        }),
         searchWords: builder.query<Word[], string>({
             query: (str) => ({
                 url: `/search`,
@@ -65,7 +69,7 @@ export const wordsAPI = createApi({
             }),
             invalidatesTags: ['words']
         }),
-        deleteWord: builder.mutation<void, number>({
+        deleteWord: builder.mutation<void, number | string>({
             query: (id) => ({
                 url: `/`,
                 method: 'DELETE',
@@ -76,4 +80,4 @@ export const wordsAPI = createApi({
     })
 })
 
-export const { useGetAllWordsQuery, useSearchWordsQuery, useSetWordMutation, useGetWordsByGroupQuery, usePutWordMutation, useDeleteWordMutation } = wordsAPI
+export const { useGetAllWordsQuery, useGetOneWordQuery, useSearchWordsQuery, useSetWordMutation, useGetWordsByGroupQuery, usePutWordMutation, useDeleteWordMutation } = wordsAPI
