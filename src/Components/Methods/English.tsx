@@ -27,6 +27,8 @@ export default function English(){
             dispatch(getLearningThunk({method: 'english', id: id_group }))
         }
     }, [id_group, user.id, vocabularyEnglish])
+    const baseAudio = new Audio(`http://localhost:3002/audio/${trueVariant?.audio}`)
+    baseAudio.play()
     return(
         <>  
             { id_group && status === 'fulfilled' &&

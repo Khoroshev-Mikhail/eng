@@ -34,6 +34,8 @@ export default function AdminOneWord(){
             setRus(word.rus)
         }
     }, [isSuccess, word])
+    const baseAudio = new Audio(`http://localhost:3002/audio/${word?.audio}`)
+    baseAudio.play()
     return (
         <>
             {isSuccess && <div className="w-full sm:w-96 mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">

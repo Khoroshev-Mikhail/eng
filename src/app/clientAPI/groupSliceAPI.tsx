@@ -12,6 +12,7 @@ const initialState: GroupState = {
         id: 0,
         title: '',
         title_rus: '',
+        img: '',
         words: []
     },
     words: []

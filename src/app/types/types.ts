@@ -17,6 +17,7 @@ export type Group = {
     id: number, 
     title: string,
     title_rus: string,
+    img: string,
     words: number[],
     is_global?: boolean,
     visible?: boolean

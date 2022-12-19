@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables';
 import { exitThunk } from '../clientAPI/userSliceAPI';
-import { Group, Word } from '../types/types'
+import { Group, Title, Word } from '../types/types'
 import { setUserToLocalStorage } from '../fns/localStorageFns';
 
 const baseQuery = fetchBaseQuery({ 
@@ -52,6 +52,17 @@ export const groupsAPI = createApi({
                     ]
                 : [{ type: 'groups', id: 'LIST' }], 
             transformResponse: (resp: Group[]) => resp.sort((a: Group, b: Group) => a.id - b.id)
+        }),
+        getGroupsTitles: builder.query<Title[], void>({
+            query: () =>  `/titles`,
+            providesTags: (result) =>
+                result
+                ? [
+                    ...result.map(({ id }: any) => ({ type: 'groups' as const, id })),
+                    { type: 'groups', id: 'LIST' },
+                    ]
+                : [{ type: 'groups', id: 'LIST' }], 
+            transformResponse: (resp: Title[]) => resp.sort((a: Title, b: Title) => a.id - b.id)
         }),
         getOneGroup: builder.query<Group, number | string>({
             query: (id: number) =>  `/${id}`,
@@ -111,4 +122,4 @@ export const groupsAPI = createApi({
     })
 })
 
-export const { useGetGroupsQuery, useGetOneGroupQuery, useSetGroupMutation, useDeleteGroupMutation, usePutGroupMutation, useSetWordToGroupMutation, useDeleteWordFromGroupMutation, useGetWordsFromGroupQuery } = groupsAPI
+export const { useGetGroupsQuery, useGetGroupsTitlesQuery, useGetOneGroupQuery, useSetGroupMutation, useDeleteGroupMutation, usePutGroupMutation, useSetWordToGroupMutation, useDeleteWordFromGroupMutation, useGetWordsFromGroupQuery } = groupsAPI
