@@ -1,38 +1,16 @@
 import { Progress } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { getVocabulary } from "../../app/clientAPI/vocabularySliceAPI";
-import getGroupProgress from "../../app/fns/groupFns";
+import { useGetGroupProgessQuery } from "../../app/API/vocabularyRTKAPI";
+import { getUserId } from "../../app/clientAPI/userSliceAPI";
 import { useAppSelector } from "../../app/hooks/hooks";
 
 export default function GroupProgress( props: { id_group: number | string | null, all?: boolean } ){
-    const vocabulary = useAppSelector(getVocabulary)
-    const [ word_ids, setWord_ids ] = useState<number[]>([])
-    const progress = getGroupProgress(vocabulary, word_ids)
-    useEffect(()=>{
-        if(props.id_group){
-            fetch(`http://localhost:3002/groups/${props.id_group}`)
-            .then( response => {
-                return response.json()
-            })
-            .then(response =>{
-                if(response.words){
-                    setWord_ids( response.words )
-                }
-            })
-            .catch(err => {
-                setWord_ids ( [] )
-            })
-        }
-    }, [ vocabulary, props.id_group ])
+    const id_user = useAppSelector(getUserId)
+    const { data: progress, isSuccess } = useGetGroupProgessQuery( {id_group: props.id_group || 0, id_user: id_user || 0 }) //костыль
     return (
         <>  
-            <h6 className="break-words !text-lg h-14 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {progress.total}%
-            </h6>
-            {( !props.all ) && 
-                <Progress progress={progress.total} color='dark'/>
-            }
-            {props.all &&
+            {isSuccess && <h6 className="break-words !text-lg h-14 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{progress.total}%</h6>}
+            {isSuccess && !props.all && <Progress progress={progress.total} color='dark'/>}
+            {isSuccess && props.all &&
                 <>
                     <div className='pb-1'><Progress progress={progress.english} color='dark'/></div>
                     <div className='pb-1'><Progress progress={progress.russian} color='dark'/></div>

@@ -1,20 +1,15 @@
-import { useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { getAllWordsFromGroup, getAllWordsFromGroupThunk } from "../../app/clientAPI/groupSliceAPI"
-import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
+import { useGetWordsFromGroupQuery } from "../../app/API/groupsRTKAPI"
+import { Word } from "../../app/types/types"
 import GroupAllWords_word from "./GroupAllWords_word"
 
 export default function GroupAllWords(){
-    const { id_group } = useParams()
-    const dispatch = useAppDispatch()
-    const words = useAppSelector(getAllWordsFromGroup)
-    useEffect(()=>{
-        dispatch(getAllWordsFromGroupThunk(id_group || 0))
-    }, [id_group])
+    const { id_group = 1} = useParams()
+    const { data, isSuccess } = useGetWordsFromGroupQuery(id_group)
     return (
         <div>
             <div className="my-4 grid grid-cols-8 gap-4">
-                <div className="col-span-4">Всего слов в группе: {words.length}</div>
+                <div className="col-span-4">Всего слов в группе: {isSuccess && data.length}</div>
                 <div className="col-span-4 text-center">Методы изучения слов</div>
             </div>
             <div className="my-4 grid grid-cols-8 gap-4">
@@ -27,7 +22,7 @@ export default function GroupAllWords(){
                     <div className="col-span-1 text-center">Аудирование</div>
                 </div>
             </div>
-            {words && words.map((el, i) => {
+            {isSuccess && data.map((el: Word, i: number) => {
                 return (
                     <GroupAllWords_word {...el} key={i}/>
                 )

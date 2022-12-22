@@ -111,4 +111,8 @@ export type Learning = {
     trueVariant: Word,
     falseVariant: Word[],
 }
+export type TrueAndFalseVariants = {
+    trueVariant: Word,
+    falseVariant: Word[],
+} | null
 export type Method = 'english' | 'russian' | 'spelling' | 'auding';

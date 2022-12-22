@@ -38,7 +38,7 @@ export function References(props : { id_group?: number | string, id_text?: numbe
                 (references.group || references.text || references.audio || references.video) &&  
                 <h1 className="m-4">С этим контентом связаны:</h1>
             }   
-            <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5'> 
+            <div className='my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5'> 
                 {! props.id_text && references.text && <TextCard {...references.text}/>}
                 {! props.id_group && references.text && <GroupCard {...references.text}/>}
             </div>

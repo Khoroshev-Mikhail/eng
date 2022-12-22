@@ -29,6 +29,7 @@ function App() {
     const dispatch = useAppDispatch()
     const userId = useAppSelector(getUserId)
     useEffect(()=>{
+        //Добавь проверку авторизован ли юзер на сервере фетчем и только после этого реавторизируйся
         dispatch(refreshTokensThunk())
     }, [])
     useEffect(()=>{

@@ -23,9 +23,9 @@ export default function TextPage(){
                 <h1>Какая-то ошибка...</h1>
             </div>
             }
+            <References id_text={id_text} />
             {text &&
-            <div>
-                <References id_text={id_text} />
+            <div className="my-4">
                 <h1>{text.title}</h1>
                 <div>{text.text_body}</div>
             </div>

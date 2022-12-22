@@ -9,16 +9,16 @@ export default function AdminWordsRow(props: Word){
     const [deleteWord] = useDeleteWordMutation()
     const [hidden, setHidden] = useState<boolean>(false)
     return (
-        <Link to={`/admin/words/${props.id}`} className="col-span-9 grid grid-cols-9 gap-x-2 border-b border-gray-200 pb-2">
-            <div className="col-span-1 cursor-pointer text-center">
+        <div className="col-span-9 grid grid-cols-9 gap-x-2 border-b border-gray-200 pb-2">
+            <Link to={`/admin/words/${props.id}`} className="col-span-1 cursor-pointer text-center">
                 {props.id}
-            </div>
-            <div className="col-span-3 cursor-pointer">
+            </Link>
+            <Link to={`/admin/words/${props.id}`} className="col-span-3 cursor-pointer">
                 {props.eng}
-            </div>
-            <div className="col-span-3 cursor-pointer">
+            </Link>
+            <Link to={`/admin/words/${props.id}`} className="col-span-3 cursor-pointer">
                 {props.rus}
-            </div>
+            </Link>
             <div className="col-span-1 text-center">
                 <Button color={'light'} onClick={()=>{setHidden(!hidden)}}>Группы</Button>
             </div>
@@ -26,6 +26,6 @@ export default function AdminWordsRow(props: Word){
                 <Button color={'failure'} onClick={()=>deleteWord(props.id)}>Del</Button>
             </div>
             {hidden && <AdminWordsRowGroups word_id={props.id}/>}
-        </Link>
+        </div>
     )
 }

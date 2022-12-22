@@ -7,7 +7,7 @@ export const wordsAPI = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:3002/words',
         prepareHeaders: (headers: Headers) => {
-            headers.set('Authorization', `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`)
+            headers.set('Authorization', `Bearer ${localStorage.getItem(TOKEN) || 'unknown' }`)
             return headers
         }
     }),

@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Progress, Word } from '../types/types'
+import type { Method, Progress, TrueAndFalseVariants, Word } from '../types/types'
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import { exitThunk } from '../clientAPI/userSliceAPI';
 import { JWT_EXPIRE, REFRESH_TOKEN, TOKEN } from '../variables/localStorageVariables';
+import { setUserToLocalStorage } from '../fns/localStorageFns';
 
 const baseQuery = fetchBaseQuery({ 
     baseUrl: 'http://localhost:3002/vocabulary',
     prepareHeaders: (headers: Headers) => {
-      headers.set('Authorization', `Bearer ${localStorage.getItem(TOKEN) || 'unknown' } ${localStorage.getItem(REFRESH_TOKEN) || 'unknown'}`)
+      headers.set('Authorization', `Bearer ${localStorage.getItem(TOKEN) || 'unknown' }`)
       return headers
     }
 })
@@ -24,11 +25,9 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
             })
         })
         if(refresh.status === 200){
+            console.log('Токены получены. Перезапускаю функцию')
             const data = await refresh.json()   
-            console.log('Токены получены. Перезапускаю функцию', data)
-            localStorage.setItem(TOKEN, data.token)
-            localStorage.setItem(REFRESH_TOKEN, data.refresh_token)
-            localStorage.setItem(JWT_EXPIRE, data.jwt_expire)
+            setUserToLocalStorage(data)
             return await baseQuery(args, api, extraOptions)
         } else{
             console.log('Ошибка токена. Диспатчу exitThunk()')
@@ -37,41 +36,46 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     }
     return result
 }
-type QueryBody = {
-    groupId: number | string, 
-    userId: number | string
-}
 export const vocabularyAPI = createApi({
     reducerPath: 'vocabularyApi',
     baseQuery: baseQueryWithReauth,
     tagTypes: ['vocabulary'],
     endpoints: (builder) => ({
-        getVocabulary: builder.query<any, any>({
+        getVocabulary: builder.query<any, number | string>({
             query: (id: number) =>  `/${id}`,
             providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
         }),
-        getUnlerned: builder.query<any, any>({ //может надо разбить на отдельные методы лучше
-            query: (req) =>  `/${req.userId}/unlerned/${req.method}/group/${req.groupId}`,
-            providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
+        getUnlerned: builder.query<TrueAndFalseVariants, { id_user: number, method: Method, id_group: number | string }>({ //может надо разбить на отдельные методы лучше
+            query: (body) =>  `/${body.id_user}/unlerned/${body.method}/group/${body.id_group}`,
+            providesTags: (result, error, req) => [{ type: 'vocabulary', req }], //КАК ТАК?
         }),
         getUnlernedSpell: builder.query<any, any>({ //может надо разбить на отдельные методы лучше
+            //и указать теги для каждого метода чтобы не загружать все целиком
             query: (req) =>  `/${req.userId}/unlerned/spelling/group/${req.groupId}`,
             providesTags: (result, error, id) => [{ type: 'vocabulary', id }],
             transformResponse: (resp: Word) => ({...resp, trueVariant: resp.eng, eng: resp.eng.toUpperCase().split('').sort(() => Math.random() - 0.5).join('')})
         }),
-        setVocabulary: builder.mutation<any, {method: string, word_id: number, userId: number}>({
+        setVocabulary: builder.mutation<any, {method: string, word_id: number, id_user: number}>({
             query: (body) => ({
-                url: `/${body.userId}/${body.method}`,
+                url: `/${body.id_user}/${body.method}`,
                 method: 'PUT',
                 body
             }),
             invalidatesTags: ['vocabulary']
         }),
-        getGroupProgess: builder.query<Progress, QueryBody>({
-            query: (body) =>  `groups/${body.groupId || 0}/progress/${body.userId || 0}`, //костыль, есть кейсы когда в группу кладется undefined, а userId 0, Надо обработать ошибку нормально
+        deleteVocabulary: builder.mutation<any, {method: string, word_id: number, id_user: number}>({
+            query: (body) => ({
+                url: `/${body.id_user}/${body.method}`,
+                method: 'DELETE',
+                body
+            }),
+            invalidatesTags: ['vocabulary']
+        }),
+        getGroupProgess: builder.query<Progress, { id_group: string | number, id_user: string | number}>({
+            query: (body) =>  `groups/${body.id_group || 1}/progress/${body.id_user || 1}`, //костыль, есть кейсы когда в группу кладется undefined, а userId 0, Надо обработать ошибку нормально> убери костыль и посмотри консоль при обновлении страницы и все поймешь
             providesTags: ['vocabulary'], 
         }),
     })
 })
 
-export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useGetUnlernedSpellQuery, useGetGroupProgessQuery } = vocabularyAPI
+export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useGetUnlernedSpellQuery,  useDeleteVocabularyMutation, useGetGroupProgessQuery } = vocabularyAPI

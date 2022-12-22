@@ -16,10 +16,10 @@ export default function AdminWords(){
     const [comparator, setComparator] = useState<{fn: any, increase: boolean}>({fn: sortWordById, increase: true})
     const [filter, setFilter] = useState<string>('')
 
-    const {data: dataWords, isSuccess: isSuccessWords} = useGetAllWordsQuery()
-    // const {data: dataSearch, isSuccess: isSuccessSearch} = useSearchWordsQuery(filter)
+    // const {data: dataWords, isSuccess: isSuccessWords} = useGetAllWordsQuery()
+    const {data: dataWords, isSuccess: isSuccessWords} = useSearchWordsQuery(filter)
     const {data: dataGroups, isSuccess: isSuccessGroups} = useGetGroupsQuery()
-    const [ setWord, status ] = useSetWordMutation()
+    const [ setWord ] = useSetWordMutation()
     const [addWordToGroup] = useSetWordToGroupMutation()
 
     const sorted = isSuccessWords 
@@ -110,8 +110,8 @@ export default function AdminWords(){
                     <div className="col-span-1 text-center">Группы</div>
                     <div className="col-span-1 text-center">Delete</div>
                 </div>
-                {isSuccessWords &&
-                    sorted.map((word: Word, i: number) => {
+                {/* удаленные так же храни в локалсторайдж */}
+                {isSuccessWords && sorted.map((word: Word, i: number) => {
                         return (
                             <AdminWordsRow key={i} {...word}/>
                         )
