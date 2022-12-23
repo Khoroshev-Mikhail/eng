@@ -24,6 +24,7 @@ import Registration from "./Components/Auth/Registration";
 import GroupAllWords from "./Components/Groups/GroupAllWords";
 import AdminOneGroup from "./AdminComponents/AdminGroups/AdminOneGroup";
 import AdminOneWord from "./AdminComponents/AdminWords/AdminOneWord";
+import UserVocabularyPage from "./Components/UserPage/UserVocabularyPage";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -54,6 +55,7 @@ function App() {
                     
                     <Route path="/" element={<Groups />} />
                     <Route path="/userpage" element={<UserPage />} />
+                    <Route path="/userpage/vocabulary" element={<UserVocabularyPage />} />
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/authorization" element={<Auth />} />
                     <Route path="/grammar" element={<Grammar />} />

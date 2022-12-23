@@ -1,8 +1,8 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { Progress } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useGetGroupProgessQuery } from "../../app/API/vocabularyRTKAPI";
-import { getGroup, getGroupThunk, getWord_idsFromGroup } from "../../app/clientAPI/groupSliceAPI";
 import { getUserId } from "../../app/clientAPI/userSliceAPI";
 import { getVocabulary } from "../../app/clientAPI/vocabularySliceAPI";
 import getGroupProgress from "../../app/fns/groupFns";
@@ -13,7 +13,7 @@ export default function GroupPage(){
     const { id_group } = useParams()
     const id_user = useAppSelector(getUserId)
     const isAdmin = useAppSelector(getUserId) === 1
-    const { data: progress, isSuccess } = useGetGroupProgessQuery( {id_group: id_group || 0, id_user: id_user || 0 }) //костыль
+    const { data: progress, isSuccess } = useGetGroupProgessQuery( id_group && id_user ? { id_group: id_group, id_user: id_user } : skipToken) //костыль
     return (
         <>
         {isAdmin &&

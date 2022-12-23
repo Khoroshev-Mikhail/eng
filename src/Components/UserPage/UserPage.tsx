@@ -1,4 +1,5 @@
 import { Button } from "flowbite-react"
+import { Link } from "react-router-dom"
 import { exitThunk, getUser } from "../../app/clientAPI/userSliceAPI"
 import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
 
@@ -7,7 +8,7 @@ export default function UserPage(){
     const dispatch = useAppDispatch()
     return(
         <div>
-            <h1>Управлять словарем</h1>
+            <Link to={'vocabulary'}>Управлять словарем</Link>
             <h1>Управлять текстами</h1>
             <h1>Управлять данными</h1>
             <h1>Выход</h1>

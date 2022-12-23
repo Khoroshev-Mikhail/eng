@@ -1,3 +1,4 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query"
 import { Checkbox } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useDeleteVocabularyMutation, useGetVocabularyQuery, useSetVocabularyMutation } from "../../app/API/vocabularyRTKAPI"
@@ -7,7 +8,7 @@ import { Word } from "../../app/types/types"
 
 export default function GroupAllWords_word(props: Word){
     const id_user = useAppSelector(getUserId)
-    const { data, isSuccess } = useGetVocabularyQuery(id_user || 0)
+    const { data, isSuccess } = useGetVocabularyQuery(id_user ?? skipToken)
     const [ setVocabulary ] = useSetVocabularyMutation()
     const [ deleteVocabulary ] = useDeleteVocabularyMutation()
     function checkboxHandler(e: any, method: string, word_id: number){
@@ -20,7 +21,7 @@ export default function GroupAllWords_word(props: Word){
         }
     }
     return (
-        <div className="my-4 grid grid-cols-8 gap-4">
+        <div className="my-4 grid grid-cols-8 gap-4 border-b border-gray-200">
             <div className="col-span-2">{props.eng}</div>
             <div className="col-span-2">{props.rus}</div>
             { isSuccess &&

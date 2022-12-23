@@ -1,3 +1,4 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { Progress } from "flowbite-react";
 import { useGetGroupProgessQuery } from "../../app/API/vocabularyRTKAPI";
 import { getUserId } from "../../app/clientAPI/userSliceAPI";
@@ -5,7 +6,7 @@ import { useAppSelector } from "../../app/hooks/hooks";
 
 export default function GroupProgress( props: { id_group: number | string | null, all?: boolean } ){
     const id_user = useAppSelector(getUserId)
-    const { data: progress, isSuccess } = useGetGroupProgessQuery( {id_group: props.id_group || 0, id_user: id_user || 0 }) //костыль
+    const { data: progress, isSuccess } = useGetGroupProgessQuery( id_user && props.id_group ? { id_group: props.id_group, id_user } : skipToken)
     return (
         <>  
             {isSuccess && <h6 className="break-words !text-lg h-14 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{progress.total}%</h6>}

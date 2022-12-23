@@ -1,21 +1,18 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query"
 import { Button, Checkbox, FileInput, Label, Table, TextInput } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useDeleteWordMutation, useGetOneWordQuery, usePutWordMutation } from "../../app/API/wordRTKAPI"
-import { Word } from "../../app/types/types"
-import AdminWordsRowGroups from "./AdminWordRowGroups"
 
 export default function AdminOneWord(){
-    const { id = 1 } = useParams()
+    const { id } = useParams()
     //добавить проверку чтобы в русских вводились только русские, в английских английские
-    const { data: word, isSuccess } = useGetOneWordQuery(id)
+    const { data: word, isSuccess } = useGetOneWordQuery(id ?? skipToken)
     const [putWord] = usePutWordMutation()
-    const [deleteWord] = useDeleteWordMutation()
     const [eng, setEng] = useState<string>('')
     const [rus, setRus] = useState<string>('')
     const [audio, setAudio] = useState<any>(null)
     const [img, setImg] = useState<any>(null)
-    const [hidden, setHidden] = useState<boolean>(false)
     function updateWord(){
         if(eng === '' || rus === ''){
             return;

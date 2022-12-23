@@ -45,7 +45,6 @@ export default function AdminGroups(){
             <div className="my-4">
                 <TextInput placeholder="Поиск..." value={filter} onChange={(e)=>setFilter(e.target.value)}/>
             </div>
-            <div> (Добавить проверку на связи и спрашивать при удалении что делать с ними)</div>
             <div className="my-4 grid grid-cols-9 gap-2 rounded-lg border border-gray-200">
                 <div className="col-span-9 grid grid-cols-8 border-b py-2">
                     <div className="col-span-1 cursor-pointer text-center" onClick={()=>toggleComparator(sortById)}>ID</div>

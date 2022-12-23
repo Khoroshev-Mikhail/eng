@@ -1,11 +1,12 @@
+import { skipToken } from "@reduxjs/toolkit/dist/query"
 import { useParams } from "react-router-dom"
 import { useGetWordsFromGroupQuery } from "../../app/API/groupsRTKAPI"
 import { Word } from "../../app/types/types"
 import GroupAllWords_word from "./GroupAllWords_word"
 
 export default function GroupAllWords(){
-    const { id_group = 1} = useParams()
-    const { data, isSuccess } = useGetWordsFromGroupQuery(id_group)
+    const { id_group } = useParams()
+    const { data, isSuccess } = useGetWordsFromGroupQuery(id_group ?? skipToken)
     return (
         <div>
             <div className="my-4 grid grid-cols-8 gap-4">

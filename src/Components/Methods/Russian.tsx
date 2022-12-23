@@ -1,20 +1,21 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query'
 import { useParams } from 'react-router-dom'
 import { useGetUnlernedQuery, useSetVocabularyMutation } from '../../app/API/vocabularyRTKAPI'
-import { getUser } from '../../app/clientAPI/userSliceAPI'
+import { getUser, getUserId } from '../../app/clientAPI/userSliceAPI'
 import { useAppSelector } from '../../app/hooks/hooks'
 import { Word } from '../../app/types/types'
 import Completed from '../StaticPages/Completed'
 export default function Russian(){
-    const user = useAppSelector(getUser)
-    const { id_group = 1 } = useParams() //костыль
-    const { data, isSuccess, isError, refetch } = useGetUnlernedQuery({ id_user: user.id || 0, method: 'russian', id_group }) //костыль
+    const id_user = useAppSelector(getUserId)
+    const { id_group } = useParams()
+    const { data, isSuccess, isError, refetch } = useGetUnlernedQuery(id_user && id_group ? { id_user, method: 'english', id_group } : skipToken)
     const [ setVocabulary ] = useSetVocabularyMutation()
     const defaultImg = '51_ccc.jpeg'
     const answer = (word_id: number) => {
-        if(isSuccess && data !== null && data.trueVariant.id === word_id ){
-            setVocabulary({ id_user: user.id || 0, method: 'russian', word_id })
+        if(isSuccess && data !== null && id_user && data.trueVariant.id === word_id ){
+            setVocabulary({ id_user, method: 'russian', word_id })
         } else{
-            if(user.id && id_group){
+            if(id_user && id_group){
                 refetch()
             }
         }

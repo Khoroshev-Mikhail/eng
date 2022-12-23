@@ -2,7 +2,7 @@ import { Button } from "flowbite-react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getLearning, getLearningThunk, getTrueVariant } from "../../app/clientAPI/learningSliceAPI"
-import { getUser } from "../../app/clientAPI/userSliceAPI"
+import { getUser, getUserId } from "../../app/clientAPI/userSliceAPI"
 import { getVocabularySpelling, setVocabularyAndGetUpdatedVocabularyThunk } from "../../app/clientAPI/vocabularySliceAPI"
 import { useAppDispatch, useAppSelector } from "../../app/hooks/hooks"
 import Completed from "../StaticPages/Completed"
@@ -10,6 +10,7 @@ import Completed from "../StaticPages/Completed"
 export default function Spelling(props: any){
     //Отрефактори проверки user.id && id_group
     const { id_group } = useParams()
+    const id_user = useAppSelector(getUserId)
     const dispatch = useAppDispatch()
     const vocabularySpelling = useAppSelector(getVocabularySpelling)
     const user = useAppSelector(getUser)

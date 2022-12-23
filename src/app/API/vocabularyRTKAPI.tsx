@@ -72,10 +72,14 @@ export const vocabularyAPI = createApi({
             invalidatesTags: ['vocabulary']
         }),
         getGroupProgess: builder.query<Progress, { id_group: string | number, id_user: string | number}>({
-            query: (body) =>  `groups/${body.id_group || 1}/progress/${body.id_user || 1}`, //костыль, есть кейсы когда в группу кладется undefined, а userId 0, Надо обработать ошибку нормально> убери костыль и посмотри консоль при обновлении страницы и все поймешь
+            query: (body) =>  `groups/${body.id_group}/progress/${body.id_user}`, //костыль, есть кейсы когда в группу кладется undefined, а userId 0, Надо обработать ошибку нормально> убери костыль и посмотри консоль при обновлении страницы и все поймешь
+            providesTags: ['vocabulary'], 
+        }),
+        getWordsFromVocabulary: builder.query<Word[], {id_user: string | number, limit: number, str: string}>({
+            query: (body) =>  `/${body.id_user}/words?limit=${body.limit}${body.str !== '' ? ('&str=' + body.str) : ''}`,
             providesTags: ['vocabulary'], 
         }),
     })
 })
 
-export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useGetUnlernedSpellQuery,  useDeleteVocabularyMutation, useGetGroupProgessQuery } = vocabularyAPI
+export const { useGetVocabularyQuery, useSetVocabularyMutation, useGetUnlernedQuery, useGetUnlernedSpellQuery,  useDeleteVocabularyMutation, useGetGroupProgessQuery, useGetWordsFromVocabularyQuery } = vocabularyAPI
